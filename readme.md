@@ -112,6 +112,35 @@ So this function was labled FourierInputV2 because this was my second itteration
 #### Final Approach And Why it worked
 
 
+
+
+	ClearAll[unblendedCosCircleSmoothie]
+
+	unblendedCosCircleSmoothie[function_,variable_Symbol,numCir_Integer]:=
+	Block[
+		{
+			fourierCoeff=Table[FourierCosCoefficient[function,variable,p],{p,1,numCir}],
+			color=Drop[Hue[#]&/@Range[0,1,(1/numCir)],-1],
+			circleList,basicCoord,manipulatedCoord,maxRadius,lineList,plotList,styledLines,prePlot
+		},
+		circleList=Circle[{-maxRadius-5,0},#1]&/@Abs@fourierCoeff;
+		
+		basicCoord=MapThread[Times,{fourierCoeff,Cos[Range[numCir]*variable]}];
+		manipulatedCoord=Transpose[{basicCoord-maxRadius-5,basicCoord/.Cos->Sin}];
+		maxRadius=Max[Abs@fourierCoeff];
+		lineList=Line[{{-maxRadius-5,0},#1,{0,#1[[2]]}}]&/@manipulatedCoord/.variable->$time;
+		styledLines=MapThread[Style,{lineList,color}];
+		
+		prePlot=MapThread[Times,{fourierCoeff,Cos[(Range[numCir]*(variable+$time))-(Pi/2)]}];
+		plotList=Plot[#1,{variable,0,10},PlotStyle->#2]&@@@(Transpose[{prePlot,color}]);
+		
+		Animate[
+			Show[
+				Graphics[{Sequence@@#1,Sequence@@#2},Axes->True],
+				Plot[#3,{variable,0,10},PlotStyle->#4,PlotRange->All],PlotRange->All
+				],
+		{$time,0,-2Pi},AnimationRunning->False]&@@Evaluate[{circleList,styledLines,prePlot,color}]
+
 ## Further Improvements
 In the future, when I have more time, I hope to get the function to create a visualization for any function even if it is neither odd nor even. By doing so I will be able to draw any curve that is provided using rotating arm segments. The end goal is to create a function, such that if given any picture of a curve, it will recreate the cruve using a series of circle linkages. Finally, I will cloud deploy the funcitons so that there will be a mini site that is easy for users to acess and utilize. 
 
