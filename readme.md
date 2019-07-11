@@ -9,9 +9,9 @@ First,I had to learn Calculus and trignometry in order to understand how the Fou
   	Animate[
  	   Graphics[
   		{
-   			Line[{{0, 0}, {5*Cos[time], 5*Sin[time]}}],
- 			Circle[{0, 0}, 5],
-   
+   		Line[{{0, 0}, {5*Cos[time], 5*Sin[time]}}],
+ 		Circle[{0, 0}, 5],
+  
   			Circle[{5*Cos[time], 5*Sin[time]}, 3],
   			Line[{{5*Cos[time], 5*Sin[time]}, {3*Cos[2 time] + 5*Cos[time], 3*Sin[2 time] + 5*Sin[time]}}],
    			
@@ -75,8 +75,7 @@ At first I tried to create multiple helper functions to manipulate the informati
 Althought the previous method works, it is hard to know exactly if you are creating the desired fucntion,Which means that you need to know what the radii/amplititues and frequency where before you used this function. Hence my second approach. This approach was more of a function that would be built as an addition to the previous method. The new addition included a function built around the inbuilt function "FourierSeries" that took in funciton, variable, and number of terms as inputs and returned the equation of the approximation of the function as complex numbers.I had to use the inbuild function "ComplexExpand" to get the equation in terms of Sine and Cosine. If the input function was even, then the Sine terms would cancel, and if the fucntion is odd, then the Cosine terms cancled out.
 #### How the Code Works
 
-
-
+So this function was labled FourierInputV2 because this was my second itteration to this fuction which took in a function, the variable that is being using, and the number of terms desired. 
 
 	fourierInputV2[inputFunction_,variableUsing_,numberOfTerms_Integer]:=
 	With[
