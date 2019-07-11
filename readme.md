@@ -20,14 +20,64 @@ First,I had to learn Calculus and trignometry in order to understand how the Fou
   			 }
  		 ],
  	{time, 0, 2*Pi}, AnimationRunning -> False]
-!What the code Creates[1]
+![What the code Creates][1]
+
 The lines are the roating arms and connect one center of a circle to the next circle's center. The code above shows the nesting of coordinates to create the moving parts using the "Animate" function. If the x-coordinates use "Cosine" and the y-coordinates use "Sine" functions, then the roatating parts will move counter-clockwise.If you switch the functions, then the arms rotate clockwise. (This information proves to be useful later on in the developing process)
 
 
-###Creating the Functions
+### Creating the Functions
 I went through many itterations of my code an restarted on a new approach three times. 
+#### Approach One and Two
+
+At first I tried to create multiple helper functions to manipulate the information and create it modular. So 
+
+	ClearAll[fourierSeriesGraphicsV3]
+	fourierSeriesCoordinates[numberCircles_,radiusList_List,frequencyList_List]:=
+		With[
+			{protoList=MapThread[
+					{#1*Cos[#2*time],#1*Sin[#2*time]}&,{radiusList,frequencyList}
+						]
+					},
+		Plus@@@Table[protoList[[;;n]],
+		{n,1,Length[protoList]}]//Prepend[{0,0}]
+	]
+
+	fourierSeriesGraphicsV3[numberCircles_,radiusList_List,frequencyList_List]:=
+		With[
+		{
+			coordinateList=fourierSeriesCoordinates[numberCircles,radiusList,frequencyList],
+			protoList=fourierSeriesCoordinates[numberCircles,radiusList,frequencyList],
+			lastCoordinate=Drop[Apply[List,
+				MapThread[
+						Circle,{
+							Drop[
+								fourierSeriesCoordinates[10,Reverse[Range[10]],Range[10]],-1],
+							Reverse[Range[10]]}
+						]//Last],-1][[1,2]],
+			circleList=Evaluate[
+					MapThread[
+						Circle,{
+							Drop[fourierSeriesCoordinates[numberCircles,radiusList,frequencyList],-1],
+							radiusList}
+						]
+					]
+		},
+
+	Animate[
+		Graphics[{#1,#2,Line[Last[coordinateList],{Total[radiusList]+10,lastCoordinate}]}],
+	{time,0,2*Pi},
+	AnimationRunning->False]&@Evaluate[
+		(Line[coordinateList]),(circleList)
+	]
+	]
 
 
+My Second 
+
+#### Final Approach And Why it worked
+
+
+## Further Improvements
 
 
 
