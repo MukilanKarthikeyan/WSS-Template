@@ -2,7 +2,7 @@
 ## Introduction
 The goal of the project is to generate Visualizations for how the Fourier series creates approximation of curves. The end result is a function that is able to generate two differnt graphics to show using Circles to represent the trignometric waves used in the Fourier Series.The Fourier Series in Calculus is the summation of trignometric waves in order to represent an approximation of a curve. Since the Fourier Series uses trignometirc functions which are created by the rotation of a circle, it is possible to link together multiple rotating circles and recreate the curve.
 ## Development
-###Understanding the General Idea
+### Understanding the General Idea
 First,I had to learn Calculus and trignometry in order to understand how the Fourier Series works. At first I wanted a proof of concept that I was able to visualize how the addition of sinatudial could result in an approximation of the curve. So I spent some time to hard code rotating radii of circles and orbiting circles. I created orbiting circles by setting the centers of successive circles as a sintudial functions so that they would be following a track built by the previous circle's circumfrence. 
   
   
@@ -26,8 +26,8 @@ The lines are the roating arms and connect one center of a circle to the next ci
 
 
 ### Creating the Functions
-I went through many itterations of my code an restarted on a new approach three times. 
-#### Approach One and Two
+I went through many itterations of my code an restarted on a new approach three times. The hardest part of this project was getting the information form the functions to be in a certain format so that it could be displayed in a cohesive manner. This issue rose form creating a generalized funtion that would work for most if not all senarios.
+#### Approach One 
 
 At first I tried to create multiple helper functions to manipulate the information and create it modular. The code below takes in a radius list, frequency list, and the number of circles needes, and then creates the nested list that is used for the moving objects in the graphics. The function is then called multiple times (I at that time had not optimimized by code to run quickly) and used them to create list of Graphics Primitieves. This one of the more developed versions of this method where the urser physically inputs the amplitude and radii of the waves used to generate the desirded funtion. In earilier versions I had an issue with getting animate to work; when I was not using slots in order to input lists and other information. I later found out that the function "Animate" had a "HoldAll" attribute which meant that it would not evaluate anything that is inputed directly in the Animate. Therefore, I had to adapt my code to evaluate outside the Animate and then be inserted into the Animate function via Slot Machines. 
 
@@ -70,8 +70,12 @@ At first I tried to create multiple helper functions to manipulate the informati
 	]
 	]
 
+### Approach Two
+#### Why I Took a Second Approach and How I did it
+Althought the previous method works, it is hard to know exactly if you are creating the desired fucntion,Which means that you need to know what the radii/amplititues and frequency where before you used this function. Hence my second approach. This approach was more of a function that would be built as an addition to the previous method. The new addition included a function built around the inbuilt function "FourierSeries" that took in funciton, variable, and number of terms as inputs and returned the equation of the approximation of the function as complex numbers.I had to use the inbuild function "ComplexExpand" to get the equation in terms of Sine and Cosine. If the input function was even, then the Sine terms would cancel, and if the fucntion is odd, then the Cosine terms cancled out.
+#### How the Code Works
 
-My Second 
+
 
 #### Final Approach And Why it worked
 
