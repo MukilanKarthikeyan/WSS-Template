@@ -111,8 +111,7 @@ So this function was labled FourierInputV2 because this was my second itteration
 
 #### Final Approach And Why it worked
 
-
-
+For my final approach, I used a pair of funcitons called "FourierCosCoefficient" and "FourierSinCoefficient" in order seprately get the radii of the circles. Then the many varibles are used to artificially stich togeather the coeffiecients and the frequencies; the code is using a descriete Fourier Transform, thus allowing me to artificially generate the frequiences used. Then the artificailly generated fourier series is used to generate coordinates. In the begining I had the x coordinates to be in terms of Cosine and y coordinates in terms of Sine which caused the roataing parts to move in the counter clockwise direction. 
 
 	ClearAll[unblendedCosCircleSmoothie]
 
