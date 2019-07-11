@@ -35,8 +35,7 @@ At first I tried to create multiple helper functions to manipulate the informati
 	fourierSeriesCoordinates[numberCircles_,radiusList_List,frequencyList_List]:=
 		With[
 			{protoList=MapThread[
-					{#1*Cos[#2*time],#1*Sin[#2*time]}&,{radiusList,frequencyList}
-						]
+					{#1*Cos[#2*time],#1*Sin[#2*time]}&,{radiusList,frequencyList}]
 					},
 		Plus@@@Table[protoList[[;;n]],
 		{n,1,Length[protoList]}]//Prepend[{0,0}]
@@ -49,9 +48,9 @@ At first I tried to create multiple helper functions to manipulate the informati
 			protoList=fourierSeriesCoordinates[numberCircles,radiusList,frequencyList],
 			lastCoordinate=Drop[Apply[List,
 				MapThread[
-						Circle,{
-							Drop[
-								fourierSeriesCoordinates[10,Reverse[Range[10]],Range[10]],-1],
+					Circle,{
+						Drop[
+							fourierSeriesCoordinates[10,Reverse[Range[10]],Range[10]],-1],
 							Reverse[Range[10]]}
 						]//Last],-1][[1,2]],
 			circleList=Evaluate[
@@ -78,7 +77,7 @@ My Second
 
 
 ## Further Improvements
-
+In the future, when I have more time, I hope to get the function to create a visualization for any function even if it is neither odd nor even. By doing so I will be able to draw any curve that is provided using rotating arm segments. The end goal is to create a function, such that if given any picture of a curve, it will recreate the cruve using a series of circle linkages. Finally, I will cloud deploy the funcitons so that there will be a mini site that is easy for users to acess and utilize. 
 
 
 [1]: 
