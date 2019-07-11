@@ -29,7 +29,7 @@ The lines are the roating arms and connect one center of a circle to the next ci
 I went through many itterations of my code an restarted on a new approach three times. 
 #### Approach One and Two
 
-At first I tried to create multiple helper functions to manipulate the information and create it modular. So 
+At first I tried to create multiple helper functions to manipulate the information and create it modular. The code below takes in a radius list, frequency list, and the number of circles needes, and then creates the nested list that is used for the moving objects in the graphics. The function is then called multiple times (I at that time had not optimimized by code to run quickly) and used them to create list of Graphics Primitieves. This one of the more developed versions of this method where the urser physically inputs the amplitude and radii of the waves used to generate the desirded funtion. In earilier versions I had an issue with getting animate to work; when I was not using slots in order to input lists and other information. I later found out that the function "Animate" had a "HoldAll" attribute which meant that it would not evaluate anything that is inputed directly in the Animate. Therefore, I had to adapt my code to evaluate outside the Animate and then be inserted into the Animate function via Slot Machines. 
 
 	ClearAll[fourierSeriesGraphicsV3]
 	fourierSeriesCoordinates[numberCircles_,radiusList_List,frequencyList_List]:=
