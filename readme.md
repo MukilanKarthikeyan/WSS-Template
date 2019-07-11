@@ -109,9 +109,9 @@ So this function was labled FourierInputV2 because this was my second itteration
 ]
 
 
-#### Final Approach And Why it worked
+### Final Approach And Why it worked
 
-For my final approach, I used a pair of funcitons called "FourierCosCoefficient" and "FourierSinCoefficient" in order seprately get the radii of the circles. Then the many varibles are used to artificially stich togeather the coeffiecients and the frequencies; the code is using a descriete Fourier Transform, thus allowing me to artificially generate the frequiences used. Then the artificailly generated fourier series is used to generate coordinates. In the begining I had the x coordinates to be in terms of Cosine and y coordinates in terms of Sine which caused the roataing parts to move in the counter clockwise direction. 
+For my final approach, I used a pair of funcitons called "FourierCosCoefficient" and "FourierSinCoefficient" in order seprately get the radii of the circles. Then the many varibles are used to artificially stich togeather the coeffiecients and the frequencies; the code is using a descriete Fourier Transform, thus allowing me to artificially generate the frequiences used. Then the artificailly generated fourier series is used to generate coordinates. In the begining I had the x coordinates to be in terms of Cosine and y coordinates in terms of Sine which caused the roataing parts to move in the counter clockwise direction. This function then creates individual moving plots which are then combined with the circles through the "Show" function to give the illusion that the circles are creating the plots. This function is named "unblendedCosCircleSmoothie" because this function returns the sperate waves that were added to create the approximation, hence the "ingriedients" in the "smoothie." I created this funciton as a demonstariton to show how seprate waves and circles can create function when combined toagather; the different steps of the process would be a good visual aid in understaing the concept of what the Fourier Series does. 
 
 	ClearAll[unblendedCosCircleSmoothie]
 
