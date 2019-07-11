@@ -1,55 +1,34 @@
-This is a sample student repository for the Wolfram Summer School, you should clone or fork this repository to get started.
+# Visualizing the Fourier Series
+## Introduction
+The goal of the project is to generate Visualizations for how the Fourier series creates approximation of curves. The end result is a function that is able to generate two differnt graphics to show using Circles to represent the trignometric waves used in the Fourier Series.The Fourier Series in Calculus is the summation of trignometric waves in order to represent an approximation of a curve. Since the Fourier Series uses trignometirc functions which are created by the rotation of a circle, it is possible to link together multiple rotating circles and recreate the curve.
+## Development
+###Understanding the General Idea
+First,I had to learn Calculus and trignometry in order to understand how the Fourier Series works. At first I wanted a proof of concept that I was able to visualize how the addition of sinatudial could result in an approximation of the curve. So I spent some time to hard code rotating radii of circles and orbiting circles. I created orbiting circles by setting the centers of successive circles as a sintudial functions so that they would be following a track built by the previous circle's circumfrence. 
+  
+  
+  	Animate[
+ 	   Graphics[
+  		{
+   			Line[{{0, 0}, {5*Cos[time], 5*Sin[time]}}],
+ 			Circle[{0, 0}, 5],
+   
+  			Circle[{5*Cos[time], 5*Sin[time]}, 3],
+  			Line[{{5*Cos[time], 5*Sin[time]}, {3*Cos[2 time] + 5*Cos[time], 3*Sin[2 time] + 5*Sin[time]}}],
+   			
+			Circle[{3*Cos[2 time] + 5*Cos[time], 3*Sin[2 time] + 5*Sin[time]},2],
+  			Line[{{3*Cos[2 time] + 5*Cos[time], 3*Sin[2 time] + 5*Sin[time]}, {5*Cos[time] + 3*Cos[2 time] + 2 Cos[3 time], 5*Sin[time] + 3*Sin[2 time] + 2 Sin[3 time]}}],
+  			 }
+ 		 ],
+ 	{time, 0, 2*Pi}, AnimationRunning -> False]
+!What the code Creates[1]
+The lines are the roating arms and connect one center of a circle to the next circle's center. The code above shows the nesting of coordinates to create the moving parts using the "Animate" function. If the x-coordinates use "Cosine" and the y-coordinates use "Sine" functions, then the roatating parts will move counter-clockwise.If you switch the functions, then the arms rotate clockwise. (This information proves to be useful later on in the developing process)
 
-## GETTING STARTED
 
-### Create a GitHub account
-https://github.com/join
+###Creating the Functions
+I went through many itterations of my code an restarted on a new approach three times. 
 
-### Create a repo to submit your work
-fork this repo, clone local copy, and push your updates to GitHub.com (see below for more details)
 
-### Give your instructor write permissions
-you need to give write permission to that repo to your tutor and to @WolframSummerSchoolProjects. Additionally please give write permissions to @kylekeane and @swedewhite for organizational purposes (you can revoke these at the end of school).
 
-## CONTENT
 
-### "Final Project" folder
-the place to submit your entire final project, including draft work if you want. There are templates and instructions in the subdirectories described in the readme.md of the "Final Project" folder.
 
-### "Homework" folder
-the place to submit your homework assignment (computational essay). There are templates and instructions in the subdirectories described in the readme.md of the "Homework" folder.
-
-### "Contributions" folder
-the place to store extra work products such as draft submissions to the data repo, function repo, neural net repo, and notebook archive. Follow the conventions described in the readme.md of that directory. There are instructions in the readme.md of the "Contributions" folder.
-
-### "Wolfram Community Post" folder
-the place to save versions of your community post so you can collaborate with your mentor if needed. There are instructions in the readme.md of the "Wolfram Community Post" folder.
-
-## MORE INFO ABOUT USING GITHUB
-
-### Download and install a Git UI
-*On OSX / Wndows*:  
-Download and install github desktop:  
-https://desktop.github.com  
-
-*On Ubuntu*:  
-Download and install git kraken:  
-https://www.gitkraken.com  
-Login and authenticate with GitHub  
-https://support.gitkraken.com/integrations/github
-
-### Install command line utility (optional)
-https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
-
-### Clone the repo locally
-by clicking on the button CLONE OR DOWNLOAD and then to OPEN IN DESKTOP
-
-### Edit your files locally
-work on your computer and push to the cloud when you are ready to save your work
-
-### Write/edit readme files using MarkDown
-a nice cheatsheet can be found here: https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
-the readme should contain:
-1. what your project is about
-2. how to run your code
-3. examples, code documentation, etc
+[1]: 
