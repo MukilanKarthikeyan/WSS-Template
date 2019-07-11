@@ -2,7 +2,9 @@
 ## Introduction
 The goal of the project is to generate Visualizations for how the Fourier series creates approximation of curves. The end result is a function that is able to generate two differnt graphics to show using Circles to represent the trignometric waves used in the Fourier Series.The Fourier Series in Calculus is the summation of trignometric waves in order to represent an approximation of a curve. Since the Fourier Series uses trignometirc functions which are created by the rotation of a circle, it is possible to link together multiple rotating circles and recreate the curve.
 ## Development
-First,I had to learn Calculus and trignometry in order to understand how the Fourier Series works. At first I wanted a proof of concept that I was able to visualize how the addition of sinatudial could result in an approximation of the curve. So I spent some time to hard code rotating circles. I created rotating circles by setting the centers of successive circles as a sintudial functions so that they would be following a track built by the previous circle's circumfrence. 
+I went through many itterations of my code an restarted on a new approach three times. 
+
+First,I had to learn Calculus and trignometry in order to understand how the Fourier Series works. At first I wanted a proof of concept that I was able to visualize how the addition of sinatudial could result in an approximation of the curve. So I spent some time to hard code rotating radii of circles and orbiting circles. I created orbiting circles by setting the centers of successive circles as a sintudial functions so that they would be following a track built by the previous circle's circumfrence. 
   
   
   	Animate[
@@ -19,3 +21,4 @@ First,I had to learn Calculus and trignometry in order to understand how the Fou
   			 }
  		 ],
  	{time, 0, 2*Pi}, AnimationRunning -> False]
+The lines are the roating arms and connect one center of a circle to the next circle's center. The code above shows the nesting of coordinates to create the moving parts using the "Animate" function. If the x-coordinates use "Cosine" and the y-coordinates use "Sine" functions, then the roatating parts will move counter clockwise. (This information proves to be useful later on in the developing process)
