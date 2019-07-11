@@ -77,6 +77,39 @@ Althought the previous method works, it is hard to know exactly if you are creat
 
 
 
+
+	fourierInputV2[inputFunction_,variableUsing_,numberOfTerms_Integer]:=
+	With[
+		{protoSeries=FourierSeries[inputFunction,variableUsing,numberOfTerms]//ComplexExpand,
+		manipulateSeries=Drop[Apply[List,FourierSeries[inputFunction,variableUsing,numberOfTerms]//ComplexExpand],1],
+		protoCoordinateSeries={
+			{
+	Select[Drop[Apply[List,FourierSeries[inputFunction,variableUsing,numberOfTerms]//ComplexExpand],1],!FreeQ[#,Cos]&],
+					Select[Drop[Apply[List,FourierSeries[inputFunction,variableUsing,numberOfTerms]//ComplexExpand],1],!FreeQ[#,Cos]&]/.Cos->Sin
+				},
+				{
+					Select[Drop[Apply[List,FourierSeries[inputFunction,variableUsing,numberOfTerms]//ComplexExpand],1],!FreeQ[#,Sin]&],
+					Select[Drop[Apply[List,FourierSeries[inputFunction,variableUsing,numberOfTerms]//ComplexExpand],1],!FreeQ[#,Sin]&]/.Sin->Cos
+				}
+			}	
+		},
+
+			Join[
+				MapThread[List,{
+					Select[manipulateSeries,!FreeQ[#,Cos]&],
+					Select[manipulateSeries,!FreeQ[#,Cos]&]/.Cos->Sin
+				}],
+		
+				MapThread[List,
+				{
+					Select[manipulateSeries,!FreeQ[#,Sin]&],
+					Select[manipulateSeries,!FreeQ[#,Sin]&]/.Sin->Cos
+				}
+			]
+		]
+]
+
+
 #### Final Approach And Why it worked
 
 
