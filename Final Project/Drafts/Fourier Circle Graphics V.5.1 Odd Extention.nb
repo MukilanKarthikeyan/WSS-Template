@@ -1,0 +1,2808 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='WolframDesktop 12.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       161,          7]
+NotebookDataLength[    121598,       2800]
+NotebookOptionsPosition[    118680,       2746]
+NotebookOutlinePosition[    119054,       2762]
+CellTagsIndexPosition[    119011,       2759]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ClearAll", "[", "unblendedCosCircleSmoothie", "]"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"unblendedCosCircleSmoothie", "[", 
+   RowBox[{"function_", ",", "variable_Symbol", ",", "numCir_Integer"}], 
+   "]"}], ":=", "\n", "\t", 
+  RowBox[{"Block", "[", "\n", "\t\t", 
+   RowBox[{
+    RowBox[{"{", "\n", "\t\t\t", 
+     RowBox[{
+      RowBox[{"fourierCoeff", "=", 
+       RowBox[{"Table", "[", 
+        RowBox[{
+         RowBox[{"FourierCosCoefficient", "[", 
+          RowBox[{"function", ",", "variable", ",", "p"}], "]"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"p", ",", "1", ",", "numCir"}], "}"}]}], "]"}]}], ",", "\n",
+       "\t\t\t", 
+      RowBox[{"color", "=", 
+       RowBox[{"Drop", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{"Hue", "[", "#", "]"}], "&"}], "/@", 
+          RowBox[{"Range", "[", 
+           RowBox[{"0", ",", "1", ",", 
+            RowBox[{"(", 
+             RowBox[{"1", "/", "numCir"}], ")"}]}], "]"}]}], ",", 
+         RowBox[{"-", "1"}]}], "]"}]}], ",", "\n", "\t\t\t", "circleList", 
+      ",", "basicCoord", ",", "manipulatedCoord", ",", "maxRadius", ",", 
+      "lineList", ",", "plotList", ",", "styledLines", ",", "prePlot"}], "\n",
+      "\t\t", "}"}], ",", "\n", "\t\t", 
+    RowBox[{
+     RowBox[{"circleList", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Circle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"-", "maxRadius"}], "-", "5"}], ",", "0"}], "}"}], ",", 
+          "#1"}], "]"}], "&"}], "/@", 
+       RowBox[{"Abs", "@", "fourierCoeff"}]}]}], ";", "\n", "\t\t", 
+     RowBox[{"basicCoord", "=", 
+      RowBox[{"MapThread", "[", 
+       RowBox[{"Times", ",", 
+        RowBox[{"{", 
+         RowBox[{"fourierCoeff", ",", 
+          RowBox[{"Cos", "[", 
+           RowBox[{
+            RowBox[{"Range", "[", "numCir", "]"}], "*", "variable"}], "]"}]}],
+          "}"}]}], "]"}]}], ";", "\n", "\t\t", 
+     RowBox[{"manipulatedCoord", "=", 
+      RowBox[{"Transpose", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"basicCoord", "-", "maxRadius", "-", "5"}], ",", 
+         RowBox[{"basicCoord", "/.", 
+          RowBox[{"Cos", "\[Rule]", "Sin"}]}]}], "}"}], "]"}]}], ";", "\n", 
+     "\t\t", 
+     RowBox[{"maxRadius", "=", 
+      RowBox[{"Max", "[", 
+       RowBox[{"Abs", "@", "fourierCoeff"}], "]"}]}], ";", "\n", "\t\t", 
+     RowBox[{"lineList", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"Line", "[", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"-", "maxRadius"}], "-", "5"}], ",", "0"}], "}"}], ",",
+             "#1", ",", 
+            RowBox[{"{", 
+             RowBox[{"0", ",", 
+              RowBox[{"#1", "[", 
+               RowBox[{"[", "2", "]"}], "]"}]}], "}"}]}], "}"}], "]"}], "&"}],
+         "/@", "manipulatedCoord"}], "/.", 
+       RowBox[{"variable", "\[Rule]", "$time"}]}]}], ";", "\n", "\t\t", 
+     RowBox[{"styledLines", "=", 
+      RowBox[{"MapThread", "[", 
+       RowBox[{"Style", ",", 
+        RowBox[{"{", 
+         RowBox[{"lineList", ",", "color"}], "}"}]}], "]"}]}], ";", "\n", 
+     "\t\t", "\n", "\t\t", 
+     RowBox[{"prePlot", "=", 
+      RowBox[{"MapThread", "[", 
+       RowBox[{"Times", ",", 
+        RowBox[{"{", 
+         RowBox[{"fourierCoeff", ",", 
+          RowBox[{"Cos", "[", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"Range", "[", "numCir", "]"}], "*", 
+              RowBox[{"(", 
+               RowBox[{"variable", "+", "$time"}], ")"}]}], ")"}], "-", 
+            RowBox[{"(", 
+             RowBox[{"Pi", "/", "2"}], ")"}]}], "]"}]}], "}"}]}], "]"}]}], 
+     ";", "\n", "\t\t", 
+     RowBox[{"plotList", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Plot", "[", 
+         RowBox[{"#1", ",", 
+          RowBox[{"{", 
+           RowBox[{"variable", ",", "0", ",", "10"}], "}"}], ",", 
+          RowBox[{"PlotStyle", "\[Rule]", "#2"}]}], "]"}], "&"}], "@@@", 
+       RowBox[{"(", 
+        RowBox[{"Transpose", "[", 
+         RowBox[{"{", 
+          RowBox[{"prePlot", ",", "color"}], "}"}], "]"}], ")"}]}]}], ";", 
+     "\n", "\t\t", "\n", "\t\t", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Animate", "[", "\n", "\t\t\t", 
+        RowBox[{
+         RowBox[{"Show", "[", "\n", "\t\t\t\t", 
+          RowBox[{
+           RowBox[{"Graphics", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"Sequence", "@@", "#1"}], ",", 
+               RowBox[{"Sequence", "@@", "#2"}]}], "}"}], ",", 
+             RowBox[{"Axes", "\[Rule]", "True"}]}], "]"}], ",", "\n", 
+           "\t\t\t\t", 
+           RowBox[{"Plot", "[", 
+            RowBox[{"#3", ",", 
+             RowBox[{"{", 
+              RowBox[{"variable", ",", "0", ",", "10"}], "}"}], ",", 
+             RowBox[{"PlotStyle", "\[Rule]", "#4"}], ",", 
+             RowBox[{"PlotRange", "\[Rule]", "All"}]}], "]"}], ",", 
+           RowBox[{"PlotRange", "\[Rule]", "All"}]}], "\n", "\t\t\t\t", "]"}],
+          ",", "\n", "\t\t", 
+         RowBox[{"{", 
+          RowBox[{"$time", ",", "0", ",", 
+           RowBox[{
+            RowBox[{"-", "2"}], "Pi"}]}], "}"}], ",", 
+         RowBox[{"AnimationRunning", "\[Rule]", "False"}]}], "]"}], "&"}], "@@", 
+      RowBox[{"Evaluate", "[", 
+       RowBox[{"{", 
+        RowBox[{
+        "circleList", ",", "styledLines", ",", "prePlot", ",", "color"}], 
+        "}"}], "]"}]}]}]}], "\n", "\t", "\n", "\t", "]"}]}]}], "Code",
+ CellChangeTimes->{
+  3.7717641156359563`*^9, {3.771772135651641*^9, 3.7717722195415106`*^9}, {
+   3.771772252351821*^9, 3.7717722744200673`*^9}, {3.7717723337643456`*^9, 
+   3.771772373221198*^9}, {3.7717724053307095`*^9, 3.771772458704199*^9}, {
+   3.7717725224820166`*^9, 3.7717725268967047`*^9}, {3.771773294943541*^9, 
+   3.771773305550679*^9}, 3.7717735494599705`*^9, {3.7717735999393983`*^9, 
+   3.7717736280416083`*^9}},
+ CellLabel->
+  "In[341]:=",ExpressionUUID->"bde045ea-31b4-4314-9280-648aabffbba5"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ClearAll", "[", "circleCosSmoothie2", "]"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"circleCosSmoothie2", "[", 
+   RowBox[{"function_", ",", "variable_Symbol", ",", "numCir_Integer"}], 
+   "]"}], ":=", "\n", "\t", 
+  RowBox[{"Block", "[", 
+   RowBox[{
+    RowBox[{"{", "\n", "\t\t", 
+     RowBox[{
+      RowBox[{"fourierConstant", "=", 
+       RowBox[{
+        RowBox[{"FourierCosCoefficient", "[", 
+         RowBox[{"function", ",", "variable", ",", "0"}], "]"}], "//", 
+        "ComplexExpand"}]}], ",", "\n", "\t\t", 
+      RowBox[{"fourierCoeff", "=", 
+       RowBox[{"Table", "[", 
+        RowBox[{
+         RowBox[{"FourierCosCoefficient", "[", 
+          RowBox[{"function", ",", "variable", ",", "p"}], "]"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"p", ",", "1", ",", "numCir"}], "}"}]}], "]"}]}], ",", "\n",
+       "\t\t", "basicCoord", ",", "manipulatedCoord", ",", "lastYCoord", ",", 
+      "totalRadius", ",", "combinedCir", ",", "cirCenter", ",", "\n", "\t\t", 
+      "cirArguments", ",", "finalPlot", ",", "lineSeries", ",", 
+      "centerOfFirstCir", ",", "listOfCoord", ",", "lastLinetoYaxis", ",", 
+      "\n", "\t\t", "lastXCoord", ",", "plotCoord", ",", "plotAllign"}], "\n",
+      "\t", "\n", "\t", "\n", "\t", "}"}], ",", "\n", "\t", "\n", "\t", 
+    RowBox[{
+     RowBox[{"totalRadius", "=", 
+      RowBox[{"Total", "[", 
+       RowBox[{"Abs", "@", "fourierCoeff"}], "]"}]}], ";", "\n", "\t", 
+     RowBox[{"basicCoord", "=", 
+      RowBox[{"MapThread", "[", 
+       RowBox[{"Times", ",", 
+        RowBox[{"{", 
+         RowBox[{"fourierCoeff", ",", 
+          RowBox[{"Cos", "[", 
+           RowBox[{
+            RowBox[{"Range", "[", "numCir", "]"}], "*", "$time"}], "]"}]}], 
+         "}"}]}], "]"}]}], ";", "\n", "\t", 
+     RowBox[{"manipulatedCoord", "=", 
+      RowBox[{"Join", "[", "\n", "\t\t", 
+       RowBox[{
+        RowBox[{"Take", "[", "\n", "\t\t\t", 
+         RowBox[{
+          RowBox[{"Transpose", "[", "\n", "\t\t\t", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{"basicCoord", "-", "totalRadius", "-", "5"}], ")"}], "/.", 
+              RowBox[{"Cos", "\[Rule]", "Sin"}]}], ",", "basicCoord"}], "}"}],
+            "]"}], ",", "1"}], "]"}], ",", "\n", "\t\t", 
+        RowBox[{"Drop", "[", 
+         RowBox[{
+          RowBox[{"Transpose", "[", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"basicCoord", "/.", 
+              RowBox[{"Cos", "\[Rule]", "Sin"}]}], ",", "basicCoord"}], "}"}],
+            "]"}], ",", "1"}], "]"}]}], "]"}]}], ";", "\n", "\t", 
+     RowBox[{"manipulatedCoord", "=", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"Plus", "@@@", 
+         RowBox[{"Table", "[", "\n", "\t\t\t\t\t\t\t\t", 
+          RowBox[{
+           RowBox[{"manipulatedCoord", "[", 
+            RowBox[{"[", 
+             RowBox[{";;", "n"}], "]"}], "]"}], ",", "\[IndentingNewLine]", 
+           "\t\t\t\t\t\t\t\t", 
+           RowBox[{"{", 
+            RowBox[{"n", ",", "1", ",", 
+             RowBox[{"Length", "[", "manipulatedCoord", "]"}]}], "}"}]}], 
+          "]"}]}], "//", 
+        RowBox[{"Prepend", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"-", "totalRadius"}], "-", "5"}], ",", "0"}], "}"}], 
+         "]"}]}], ")"}]}], ";", "\n", "\t\t\t\t\t\t\t\t", "\n", "\t", 
+     RowBox[{"lastYCoord", "=", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", 
+        RowBox[{"Take", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Take", "[", 
+            RowBox[{"manipulatedCoord", ",", 
+             RowBox[{"-", "1"}]}], "]"}], "//", "Flatten"}], ",", 
+          RowBox[{"-", "1"}]}], "]"}]}], "}"}]}], ";", "\n", "\t", 
+     RowBox[{"plotCoord", "=", 
+      RowBox[{"Total", "[", 
+       RowBox[{"MapThread", "[", 
+        RowBox[{"Times", ",", 
+         RowBox[{"{", 
+          RowBox[{"fourierCoeff", ",", 
+           RowBox[{"Cos", "[", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{"Range", "[", "numCir", "]"}], ")"}], "*", 
+              RowBox[{"(", 
+               RowBox[{"variable", "+", "$time"}], ")"}]}], ")"}], "]"}]}], 
+          "}"}]}], "]"}], "]"}]}], ";", "\n", "\t", 
+     RowBox[{"cirCenter", "=", 
+      RowBox[{"Drop", "[", 
+       RowBox[{"manipulatedCoord", ",", 
+        RowBox[{"-", "1"}]}], "]"}]}], ";", "\n", "\t", 
+     RowBox[{"cirArguments", "=", 
+      RowBox[{"Transpose", "[", 
+       RowBox[{"{", 
+        RowBox[{"cirCenter", ",", 
+         RowBox[{"Abs", "@", "fourierCoeff"}]}], "}"}], "]"}]}], ";", "\n", 
+     "\t", "\n", "\t", 
+     RowBox[{"lastLinetoYaxis", "=", 
+      RowBox[{"Prepend", "[", 
+       RowBox[{
+        RowBox[{"Take", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Take", "[", 
+            RowBox[{"manipulatedCoord", ",", 
+             RowBox[{"-", "1"}]}], "]"}], "//", "Flatten"}], ",", 
+          RowBox[{"-", "1"}]}], "]"}], ",", "0"}], "]"}]}], ";", "\n", "\t", 
+     "\n", "\t", 
+     RowBox[{"combinedCir", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"Circle", "[", 
+          RowBox[{"#1", ",", "#2"}], "]"}], "}"}], "&"}], "@@@", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"#1", "&"}], "/@", "cirArguments"}], ")"}]}]}], ";", "\n", 
+     "\t", 
+     RowBox[{"lineSeries", "=", " ", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Line", "[", "#1", "]"}], "&"}], "@", 
+       RowBox[{"(", 
+        RowBox[{"Append", "[", 
+         RowBox[{"manipulatedCoord", ",", "lastLinetoYaxis"}], "]"}], 
+        ")"}]}]}], ";", "\n", "\n", "\t", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Animate", "[", "\n", "\t\t\t", 
+        RowBox[{
+         RowBox[{"Show", "[", "\n", "\t\t\t\t", 
+          RowBox[{
+           RowBox[{"Graphics", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"Sequence", "@@", "#1"}], ",", "#2"}], "}"}], ",", 
+             RowBox[{"Axes", "\[Rule]", "True"}]}], "]"}], ",", "\n", 
+           "\t\t\t\t", 
+           RowBox[{"Plot", "[", 
+            RowBox[{"#3", ",", 
+             RowBox[{"{", 
+              RowBox[{"variable", ",", "0", ",", "10"}], "}"}], ",", 
+             RowBox[{"PlotRange", "->", "Full"}]}], "]"}], ",", 
+           RowBox[{"PlotRange", "\[Rule]", "All"}]}], "\n", 
+          "\t\t\t\t\t\t\t\t", "]"}], ",", "\n", "\t\t", 
+         RowBox[{"{", 
+          RowBox[{"$time", ",", "0", ",", 
+           RowBox[{
+            RowBox[{"-", "2"}], "Pi"}]}], "}"}], ",", 
+         RowBox[{"AnimationRunning", "\[Rule]", "False"}]}], "]"}], "&"}], "@@", 
+      RowBox[{"Evaluate", "[", 
+       RowBox[{"{", 
+        RowBox[{"combinedCir", ",", "lineSeries", ",", "plotCoord"}], "}"}], 
+       "]"}]}]}]}], "\n", "\t", "\n", "\t", "\n", "\t", "]"}]}]}], "Code",
+ CellChangeTimes->{{3.771769429244573*^9, 3.77176948431076*^9}, {
+   3.771769593688072*^9, 3.771769645703025*^9}, {3.77176970266473*^9, 
+   3.7717697528441544`*^9}, {3.7717697964092274`*^9, 3.7717698710585065`*^9}, 
+   3.7717699375938125`*^9, {3.7717699917922506`*^9, 3.771770007267448*^9}, {
+   3.7717701040831976`*^9, 3.771770126557534*^9}, {3.7717706311217017`*^9, 
+   3.771770631685566*^9}, {3.7717706943818674`*^9, 3.771770696461311*^9}, {
+   3.7717711199921193`*^9, 3.771771121302991*^9}, {3.771772046655532*^9, 
+   3.771772048889139*^9}, {3.7717733436297*^9, 3.7717733772492695`*^9}, {
+   3.7717736523009253`*^9, 3.7717736551432476`*^9}, {3.7717803086177*^9, 
+   3.7717803095249467`*^9}},
+ CellLabel->
+  "In[385]:=",ExpressionUUID->"c494fc6a-fefa-4018-a3ab-c605b99937c0"],
+
+Cell[BoxData[{
+ RowBox[{"ClearAll", "[", "fourierCircleCookBook", "]"}], "\n", 
+ RowBox[{
+  RowBox[{"fourierCircleCookBook", "[", 
+   RowBox[{"function_", ",", "variable_Symbol", ",", "numCir_Integer"}], 
+   "]"}], ":=", "\n", 
+  RowBox[{"If", "[", "\n", "\t", 
+   RowBox[{
+    RowBox[{"PossibleZeroQ", "[", 
+     RowBox[{"function", "-", 
+      RowBox[{"(", 
+       RowBox[{"function", "/.", 
+        RowBox[{"variable", "\[Rule]", 
+         RowBox[{"(", 
+          RowBox[{"-", "variable"}], ")"}]}]}], ")"}]}], "]"}], ",", "\n", 
+    "\t\t", 
+    RowBox[{"Row", "[", "\n", "\t\t\t", 
+     RowBox[{
+      RowBox[{"unblendedCosCircleSmoothie", "[", 
+       RowBox[{"function", ",", "variable", ",", "numCir"}], "]"}], ",", "\n",
+       "\t\t\t", 
+      RowBox[{"circleCosSmoothie2", "[", 
+       RowBox[{"function", ",", "variable", ",", "numCir"}], "]"}]}], "\n", 
+     "\t\t\t", "]"}], ",", "\[IndentingNewLine]", "\t", 
+    RowBox[{"If", "[", "\n", "\t\t", 
+     RowBox[{
+      RowBox[{"PossibleZeroQ", "[", 
+       RowBox[{"function", "+", 
+        RowBox[{"(", 
+         RowBox[{"function", "/.", 
+          RowBox[{"variable", "\[Rule]", 
+           RowBox[{"(", 
+            RowBox[{"-", "variable"}], ")"}]}]}], ")"}]}], "]"}], ",", 
+      "\[IndentingNewLine]", "\t\t\t", 
+      RowBox[{"Row", "[", "\n", "\t\t\t\t", 
+       RowBox[{
+        RowBox[{"unblendedSinCircleSmoothie", "[", 
+         RowBox[{"function", ",", "variable", ",", "numCir"}], "]"}], ",", 
+        "\n", "\t\t\t\t", 
+        RowBox[{"circleSinSmoothie2", "[", 
+         RowBox[{"function", ",", "variable", ",", "numCir"}], "]"}]}], "\n", 
+       "\t\t\t\t", "]"}]}], "\n", "\t\t", "]"}]}], "\n", "\t", 
+   "]"}]}]}], "Code",
+ CellChangeTimes->{{3.771764126416497*^9, 3.771764288483469*^9}, {
+   3.771764365275067*^9, 3.7717644137405524`*^9}, 3.7717734853909187`*^9, {
+   3.7717736140331993`*^9, 3.771773617192334*^9}, {3.77177862891463*^9, 
+   3.7717786293990326`*^9}, {3.7717786795489683`*^9, 3.771778704866975*^9}, {
+   3.771778816052096*^9, 3.771778850250229*^9}, {3.7717789546726866`*^9, 
+   3.7717789569909315`*^9}, {3.7717790113123426`*^9, 
+   3.7717790383014374`*^9}, {3.771779193202149*^9, 3.7717792573630285`*^9}, {
+   3.771779779503062*^9, 3.771779875496085*^9}, {3.771779921752244*^9, 
+   3.7717799643788137`*^9}, {3.771780183321391*^9, 
+   3.771780202599187*^9}},ExpressionUUID->"a491872a-8c81-49bf-84ec-\
+b3ba459b0bf5"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"fourierCircleCookBook", "[", 
+  RowBox[{
+   RowBox[{"x", "^", "3"}], ",", "x", ",", "5"}], "]"}]], "Input",
+ CellChangeTimes->{{3.77178020757795*^9, 3.771780235988327*^9}},
+ CellLabel->
+  "In[384]:=",ExpressionUUID->"0fe39da0-a601-493e-9943-3c186d030127"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"2", " ", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"-", "6"}], "+", 
+     SuperscriptBox["\[Pi]", "2"]}], ")"}], " ", 
+   RowBox[{"Sin", "[", 
+    RowBox[{"x", "+", "$time"}], "]"}]}], "+", 
+  RowBox[{
+   RowBox[{"(", 
+    RowBox[{
+     FractionBox["3", "2"], "-", 
+     SuperscriptBox["\[Pi]", "2"]}], ")"}], " ", 
+   RowBox[{"Sin", "[", 
+    RowBox[{"2", " ", 
+     RowBox[{"(", 
+      RowBox[{"x", "+", "$time"}], ")"}]}], "]"}]}], "+", 
+  RowBox[{
+   FractionBox["2", "9"], " ", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"-", "2"}], "+", 
+     RowBox[{"3", " ", 
+      SuperscriptBox["\[Pi]", "2"]}]}], ")"}], " ", 
+   RowBox[{"Sin", "[", 
+    RowBox[{"3", " ", 
+     RowBox[{"(", 
+      RowBox[{"x", "+", "$time"}], ")"}]}], "]"}]}], "+", 
+  RowBox[{
+   FractionBox["1", "16"], " ", 
+   RowBox[{"(", 
+    RowBox[{"3", "-", 
+     RowBox[{"8", " ", 
+      SuperscriptBox["\[Pi]", "2"]}]}], ")"}], " ", 
+   RowBox[{"Sin", "[", 
+    RowBox[{"4", " ", 
+     RowBox[{"(", 
+      RowBox[{"x", "+", "$time"}], ")"}]}], "]"}]}], "+", 
+  RowBox[{
+   FractionBox["2", "125"], " ", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"-", "6"}], "+", 
+     RowBox[{"25", " ", 
+      SuperscriptBox["\[Pi]", "2"]}]}], ")"}], " ", 
+   RowBox[{"Sin", "[", 
+    RowBox[{"5", " ", 
+     RowBox[{"(", 
+      RowBox[{"x", "+", "$time"}], ")"}]}], "]"}]}]}]], "Echo",
+ CellChangeTimes->{
+  3.771780240213546*^9},ExpressionUUID->"82856f2d-96d3-4b3a-9a3f-\
+d4fa4fcd3d00"],
+
+Cell[BoxData[
+ RowBox[{"Row", "[", 
+  RowBox[{
+   TagBox[
+    StyleBox[
+     DynamicModuleBox[{$CellContext`$time$$ = 0, Typeset`show$$ = True, 
+      Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+      Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+      "\"untitled\"", Typeset`specs$$ = {{
+        Hold[$CellContext`$time$$], 0, (-2) Pi}}, Typeset`size$$ = {
+      432., {115., 121.}}, Typeset`update$$ = 0, Typeset`initDone$$, 
+      Typeset`skipInitDone$$ = True, $CellContext`$time$1074187$$ = 0}, 
+      DynamicBox[Manipulate`ManipulateBoxes[
+       1, StandardForm, "Variables" :> {$CellContext`$time$$ = 0}, 
+        "ControllerVariables" :> {
+          Hold[$CellContext`$time$$, $CellContext`$time$1074187$$, 0]}, 
+        "OtherVariables" :> {
+         Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+          Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+          Typeset`specs$$, Typeset`size$$, Typeset`update$$, 
+          Typeset`initDone$$, Typeset`skipInitDone$$}, "Body" :> Show[
+          Graphics[{
+            Apply[Sequence, {
+              Circle[{Rational[-7, 2] - Pi^2, 0}, 2 (-6 + Pi^2)], 
+              Circle[{Rational[-7, 2] - Pi^2, 0}, Rational[-3, 2] + Pi^2], 
+              
+              Circle[{Rational[-7, 2] - Pi^2, 0}, 
+               Rational[2, 9] (-2 + 3 Pi^2)], 
+              
+              Circle[{Rational[-7, 2] - Pi^2, 0}, 
+               Rational[1, 16] (-3 + 8 Pi^2)], 
+              
+              Circle[{Rational[-7, 2] - Pi^2, 0}, 
+               Rational[2, 125] (-6 + 25 Pi^2)]}], 
+            Apply[Sequence, {
+              Style[
+               
+               Line[{{Rational[-7, 2] - Pi^2, 0}, {
+                 Rational[-7, 2] - Pi^2 + 
+                  2 (-6 + Pi^2) Sin[$CellContext`$time$$], 2 (-6 + Pi^2) 
+                  Cos[$CellContext`$time$$]}, {
+                 0, 2 (-6 + Pi^2) Cos[$CellContext`$time$$]}}], 
+               Hue[0]], 
+              Style[
+               
+               Line[{{Rational[-7, 2] - Pi^2, 0}, {
+                 Rational[-7, 2] - 
+                  Pi^2 + (Rational[3, 2] - Pi^2) 
+                   Sin[2 $CellContext`$time$$], (Rational[3, 2] - Pi^2) 
+                  Cos[2 $CellContext`$time$$]}, {
+                 0, (Rational[3, 2] - Pi^2) Cos[2 $CellContext`$time$$]}}], 
+               Hue[
+                Rational[1, 5]]], 
+              Style[
+               
+               Line[{{Rational[-7, 2] - Pi^2, 0}, {
+                 Rational[-7, 2] - Pi^2 + 
+                  Rational[2, 9] (-2 + 3 Pi^2) Sin[3 $CellContext`$time$$], 
+                  Rational[2, 9] (-2 + 3 Pi^2) Cos[3 $CellContext`$time$$]}, {
+                 0, Rational[2, 9] (-2 + 3 Pi^2) 
+                  Cos[3 $CellContext`$time$$]}}], 
+               Hue[
+                Rational[2, 5]]], 
+              Style[
+               
+               Line[{{Rational[-7, 2] - Pi^2, 0}, {
+                 Rational[-7, 2] - Pi^2 + 
+                  Rational[1, 16] (3 - 8 Pi^2) Sin[4 $CellContext`$time$$], 
+                  Rational[1, 16] (3 - 8 Pi^2) Cos[4 $CellContext`$time$$]}, {
+                 0, Rational[1, 16] (3 - 8 Pi^2) 
+                  Cos[4 $CellContext`$time$$]}}], 
+               Hue[
+                Rational[3, 5]]], 
+              Style[
+               
+               Line[{{Rational[-7, 2] - Pi^2, 0}, {
+                 Rational[-7, 2] - Pi^2 + 
+                  Rational[2, 125] (-6 + 25 Pi^2) Sin[5 $CellContext`$time$$],
+                   Rational[2, 125] (-6 + 25 Pi^2) 
+                  Cos[5 $CellContext`$time$$]}, {
+                 0, Rational[2, 125] (-6 + 25 Pi^2) 
+                  Cos[5 $CellContext`$time$$]}}], 
+               Hue[
+                Rational[4, 5]]]}]}, Axes -> True], 
+          
+          Plot[{2 (-6 + Pi^2) 
+            Cos[$CellContext`x + $CellContext`$time$$], (Rational[3, 2] - 
+             Pi^2) Cos[2 ($CellContext`x + $CellContext`$time$$)], 
+            Rational[2, 9] (-2 + 3 Pi^2) 
+            Cos[3 ($CellContext`x + $CellContext`$time$$)], 
+            Rational[1, 16] (3 - 8 Pi^2) 
+            Cos[4 ($CellContext`x + $CellContext`$time$$)], 
+            Rational[2, 125] (-6 + 25 Pi^2) 
+            Cos[5 ($CellContext`x + $CellContext`$time$$)]}, {$CellContext`x, 
+            0, 10}, PlotStyle -> {
+             Hue[0], 
+             Hue[
+              Rational[1, 5]], 
+             Hue[
+              Rational[2, 5]], 
+             Hue[
+              Rational[3, 5]], 
+             Hue[
+              Rational[4, 5]]}, PlotRange -> All], PlotRange -> All], 
+        "Specifications" :> {{$CellContext`$time$$, 0, (-2) Pi, 
+           AnimationRunning -> False, 
+           AppearanceElements -> {
+            "ProgressSlider", "PlayPauseButton", "FasterSlowerButtons", 
+             "DirectionButton"}}}, 
+        "Options" :> {
+         ControlType -> Animator, AppearanceElements -> None, 
+          DefaultBaseStyle -> "Animate", DefaultLabelStyle -> "AnimateLabel", 
+          SynchronousUpdating -> True, ShrinkingDelay -> 10.}, 
+        "DefaultOptions" :> {}],
+       ImageSizeCache->{489., {160., 167.}},
+       SingleEvaluation->True],
+      Deinitialization:>None,
+      DynamicModuleValues:>{},
+      SynchronousInitialization->True,
+      UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+      UnsavedVariables:>{Typeset`initDone$$},
+      UntrackedVariables:>{Typeset`size$$}], "Animate",
+     Deployed->True,
+     StripOnInput->False],
+    Manipulate`InterpretManipulate[1]], ",", 
+   TagBox[
+    StyleBox[
+     DynamicModuleBox[{$CellContext`$time$$ = 0, Typeset`show$$ = True, 
+      Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+      Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+      "\"untitled\"", Typeset`specs$$ = {{
+        Hold[$CellContext`$time$$], 0, (-2) Pi}}, Typeset`size$$ = {
+      432., {139., 144.}}, Typeset`update$$ = 0, Typeset`initDone$$, 
+      Typeset`skipInitDone$$ = True, $CellContext`$time$1074204$$ = 0}, 
+      DynamicBox[Manipulate`ManipulateBoxes[
+       1, StandardForm, "Variables" :> {$CellContext`$time$$ = 0}, 
+        "ControllerVariables" :> {
+          Hold[$CellContext`$time$$, $CellContext`$time$1074204$$, 0]}, 
+        "OtherVariables" :> {
+         Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+          Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+          Typeset`specs$$, Typeset`size$$, Typeset`update$$, 
+          Typeset`initDone$$, Typeset`skipInitDone$$}, "Body" :> Show[
+          Graphics[{
+            Apply[Sequence, {{
+               
+               Circle[{
+                Rational[-7, 2] - Pi^2 + Rational[1, 16] (3 - 8 Pi^2) - 
+                 2 (-6 + Pi^2) + Rational[-2, 9] (-2 + 3 Pi^2) + 
+                 Rational[-2, 125] (-6 + 25 Pi^2), 0}, 2 (-6 + Pi^2)]}, {
+               
+               Circle[{
+                Rational[-7, 2] - Pi^2 + Rational[1, 16] (3 - 8 Pi^2) - 
+                 2 (-6 + Pi^2) + Rational[-2, 9] (-2 + 3 Pi^2) + 
+                 Rational[-2, 125] (-6 + 25 Pi^2) + 
+                 2 (-6 + Pi^2) Cos[$CellContext`$time$$], 2 (-6 + Pi^2) 
+                 Sin[$CellContext`$time$$]}, Rational[-3, 2] + Pi^2]}, {
+               
+               Circle[{
+                Rational[-7, 2] - Pi^2 + Rational[1, 16] (3 - 8 Pi^2) - 
+                 2 (-6 + Pi^2) + Rational[-2, 9] (-2 + 3 Pi^2) + 
+                 Rational[-2, 125] (-6 + 25 Pi^2) + 
+                 2 (-6 + Pi^2) 
+                  Cos[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+                  Cos[2 $CellContext`$time$$], 
+                 2 (-6 + Pi^2) 
+                  Sin[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+                  Sin[2 $CellContext`$time$$]}, 
+                Rational[2, 9] (-2 + 3 Pi^2)]}, {
+               
+               Circle[{
+                Rational[-7, 2] - Pi^2 + Rational[1, 16] (3 - 8 Pi^2) - 
+                 2 (-6 + Pi^2) + Rational[-2, 9] (-2 + 3 Pi^2) + 
+                 Rational[-2, 125] (-6 + 25 Pi^2) + 
+                 2 (-6 + Pi^2) 
+                  Cos[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+                  Cos[2 $CellContext`$time$$] + 
+                 Rational[2, 9] (-2 + 3 Pi^2) Cos[3 $CellContext`$time$$], 
+                 2 (-6 + Pi^2) 
+                  Sin[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+                  Sin[2 $CellContext`$time$$] + 
+                 Rational[2, 9] (-2 + 3 Pi^2) Sin[3 $CellContext`$time$$]}, 
+                Rational[1, 16] (-3 + 8 Pi^2)]}, {
+               
+               Circle[{
+                Rational[-7, 2] - Pi^2 + Rational[1, 16] (3 - 8 Pi^2) - 
+                 2 (-6 + Pi^2) + Rational[-2, 9] (-2 + 3 Pi^2) + 
+                 Rational[-2, 125] (-6 + 25 Pi^2) + 
+                 2 (-6 + Pi^2) 
+                  Cos[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+                  Cos[2 $CellContext`$time$$] + 
+                 Rational[2, 9] (-2 + 3 Pi^2) Cos[3 $CellContext`$time$$] + 
+                 Rational[1, 16] (3 - 8 Pi^2) Cos[4 $CellContext`$time$$], 
+                 2 (-6 + Pi^2) 
+                  Sin[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+                  Sin[2 $CellContext`$time$$] + 
+                 Rational[2, 9] (-2 + 3 Pi^2) Sin[3 $CellContext`$time$$] + 
+                 Rational[1, 16] (3 - 8 Pi^2) Sin[4 $CellContext`$time$$]}, 
+                Rational[2, 125] (-6 + 25 Pi^2)]}}], 
+            
+            Line[{{Rational[-7, 2] - Pi^2 + Rational[1, 16] (3 - 8 Pi^2) - 
+               2 (-6 + Pi^2) + Rational[-2, 9] (-2 + 3 Pi^2) + 
+               Rational[-2, 125] (-6 + 25 Pi^2), 0}, {
+              Rational[-7, 2] - Pi^2 + Rational[1, 16] (3 - 8 Pi^2) - 
+               2 (-6 + Pi^2) + Rational[-2, 9] (-2 + 3 Pi^2) + 
+               Rational[-2, 125] (-6 + 25 Pi^2) + 
+               2 (-6 + Pi^2) Cos[$CellContext`$time$$], 2 (-6 + Pi^2) 
+               Sin[$CellContext`$time$$]}, {
+              Rational[-7, 2] - Pi^2 + Rational[1, 16] (3 - 8 Pi^2) - 
+               2 (-6 + Pi^2) + Rational[-2, 9] (-2 + 3 Pi^2) + 
+               Rational[-2, 125] (-6 + 25 Pi^2) + 
+               2 (-6 + Pi^2) 
+                Cos[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+                Cos[2 $CellContext`$time$$], 
+               2 (-6 + Pi^2) 
+                Sin[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+                Sin[2 $CellContext`$time$$]}, {
+              Rational[-7, 2] - Pi^2 + Rational[1, 16] (3 - 8 Pi^2) - 
+               2 (-6 + Pi^2) + Rational[-2, 9] (-2 + 3 Pi^2) + 
+               Rational[-2, 125] (-6 + 25 Pi^2) + 
+               2 (-6 + Pi^2) 
+                Cos[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+                Cos[2 $CellContext`$time$$] + 
+               Rational[2, 9] (-2 + 3 Pi^2) Cos[3 $CellContext`$time$$], 
+               2 (-6 + Pi^2) 
+                Sin[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+                Sin[2 $CellContext`$time$$] + 
+               Rational[2, 9] (-2 + 3 Pi^2) Sin[3 $CellContext`$time$$]}, {
+              Rational[-7, 2] - Pi^2 + Rational[1, 16] (3 - 8 Pi^2) - 
+               2 (-6 + Pi^2) + Rational[-2, 9] (-2 + 3 Pi^2) + 
+               Rational[-2, 125] (-6 + 25 Pi^2) + 
+               2 (-6 + Pi^2) 
+                Cos[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+                Cos[2 $CellContext`$time$$] + 
+               Rational[2, 9] (-2 + 3 Pi^2) Cos[3 $CellContext`$time$$] + 
+               Rational[1, 16] (3 - 8 Pi^2) Cos[4 $CellContext`$time$$], 
+               2 (-6 + Pi^2) 
+                Sin[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+                Sin[2 $CellContext`$time$$] + 
+               Rational[2, 9] (-2 + 3 Pi^2) Sin[3 $CellContext`$time$$] + 
+               Rational[1, 16] (3 - 8 Pi^2) Sin[4 $CellContext`$time$$]}, {
+              Rational[-7, 2] - Pi^2 + Rational[1, 16] (3 - 8 Pi^2) - 
+               2 (-6 + Pi^2) + Rational[-2, 9] (-2 + 3 Pi^2) + 
+               Rational[-2, 125] (-6 + 25 Pi^2) + 
+               2 (-6 + Pi^2) 
+                Cos[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+                Cos[2 $CellContext`$time$$] + 
+               Rational[2, 9] (-2 + 3 Pi^2) Cos[3 $CellContext`$time$$] + 
+               Rational[1, 16] (3 - 8 Pi^2) Cos[4 $CellContext`$time$$] + 
+               Rational[2, 125] (-6 + 25 Pi^2) Cos[5 $CellContext`$time$$], 
+               2 (-6 + Pi^2) 
+                Sin[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+                Sin[2 $CellContext`$time$$] + 
+               Rational[2, 9] (-2 + 3 Pi^2) Sin[3 $CellContext`$time$$] + 
+               Rational[1, 16] (3 - 8 Pi^2) Sin[4 $CellContext`$time$$] + 
+               Rational[2, 125] (-6 + 25 Pi^2) Sin[5 $CellContext`$time$$]}, {
+              0, 2 (-6 + Pi^2) 
+                Sin[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+                Sin[2 $CellContext`$time$$] + 
+               Rational[2, 9] (-2 + 3 Pi^2) Sin[3 $CellContext`$time$$] + 
+               Rational[1, 16] (3 - 8 Pi^2) Sin[4 $CellContext`$time$$] + 
+               Rational[2, 125] (-6 + 25 Pi^2) 
+                Sin[5 $CellContext`$time$$]}}]}, Axes -> True], 
+          Plot[
+          2 (-6 + Pi^2) 
+            Sin[$CellContext`x + $CellContext`$time$$] + (Rational[3, 2] - 
+             Pi^2) Sin[2 ($CellContext`x + $CellContext`$time$$)] + 
+           Rational[2, 9] (-2 + 3 Pi^2) 
+            Sin[3 ($CellContext`x + $CellContext`$time$$)] + 
+           Rational[1, 16] (3 - 8 Pi^2) 
+            Sin[4 ($CellContext`x + $CellContext`$time$$)] + 
+           Rational[2, 125] (-6 + 25 Pi^2) 
+            Sin[5 ($CellContext`x + $CellContext`$time$$)], {$CellContext`x, 
+            0, 30}, PlotRange -> Full], PlotRange -> All], 
+        "Specifications" :> {{$CellContext`$time$$, 0, (-2) Pi, 
+           AnimationRunning -> False, 
+           AppearanceElements -> {
+            "ProgressSlider", "PlayPauseButton", "FasterSlowerButtons", 
+             "DirectionButton"}}}, 
+        "Options" :> {
+         ControlType -> Animator, AppearanceElements -> None, 
+          DefaultBaseStyle -> "Animate", DefaultLabelStyle -> "AnimateLabel", 
+          SynchronousUpdating -> True, ShrinkingDelay -> 10.}, 
+        "DefaultOptions" :> {}],
+       ImageSizeCache->{489., {183., 190.}},
+       SingleEvaluation->True],
+      Deinitialization:>None,
+      DynamicModuleValues:>{},
+      SynchronousInitialization->True,
+      UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+      UnsavedVariables:>{Typeset`initDone$$},
+      UntrackedVariables:>{Typeset`size$$}], "Animate",
+     Deployed->True,
+     StripOnInput->False],
+    Manipulate`InterpretManipulate[1]]}], "]"}]], "Output",
+ CellChangeTimes->{{3.771780221545889*^9, 3.7717802403229165`*^9}},
+ CellLabel->
+  "Out[384]=",ExpressionUUID->"21cd3b1f-e5fe-4353-9613-acbca8a69d79"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Attributes", "[", "If", "]"}]], "Input",
+ CellChangeTimes->{{3.771778962187205*^9, 3.7717789652930984`*^9}},
+ CellLabel->
+  "In[379]:=",ExpressionUUID->"4063e601-2875-48cc-b631-c0db92d14b89"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"HoldRest", ",", "Protected"}], "}"}]], "Output",
+ CellChangeTimes->{{3.771778694974129*^9, 3.7717787097387733`*^9}, 
+   3.7717789657501717`*^9},
+ CellLabel->
+  "Out[379]=",ExpressionUUID->"98ccfa0e-ef72-44d0-a779-5873a27d4ad5"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", "HoldRest"}]], "Input",
+ CellChangeTimes->{{3.7717789880965695`*^9, 3.7717789921621947`*^9}},
+ CellLabel->
+  "In[380]:=",ExpressionUUID->"9d55415d-2493-4b65-83b9-ccf0246fcdde"],
+
+Cell[BoxData[
+ InterpretationBox[
+  StyleBox[
+   FrameBox[
+    DynamicModuleBox[{System`InformationDump`open$$ = False, 
+     System`InformationDump`mouseOver$$ = False}, 
+     PaneSelectorBox[{True->
+      TagBox[GridBox[{
+         {
+          ItemBox[
+           PaneBox[
+            StyleBox["\<\" Symbol\"\>", "InformationTitleText",
+             StripOnInput->False,
+             BaseStyle -> None],
+            FrameMargins->{{4, 0}, {-1, 1}}],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], 
+          ItemBox[
+           PaneBox[
+            TooltipBox[
+             ButtonBox[
+              PaneSelectorBox[{False->
+               
+               DynamicBox[FEPrivate`FrontEndResource[
+                "FEBitmaps", "InformationHelpIcon"]], True->
+               
+               DynamicBox[FEPrivate`FrontEndResource[
+                "FEBitmaps", "InformationHelpIconHot"]]}, Dynamic[
+                CurrentValue["MouseOver"]]],
+              Appearance->None,
+              BaseStyle->"Link",
+              ButtonData->"paclet:ref/HoldRest",
+              ButtonNote->"paclet:ref/HoldRest"],
+             "\"paclet:ref/HoldRest\""],
+            FrameMargins->{{0, 4}, {0, 2}}],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           PaneBox[
+            
+            StyleBox["\<\"HoldRest is an attribute which specifies that all \
+but the first argument to a function are to be maintained in an unevaluated \
+form. \"\>", "InformationUsageText",
+             StripOnInput->False,
+             LineSpacing->{1.5, 1.5, 3.}],
+            FrameMargins->{{10, 10}, {8, 10}}],
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False]},
+         {
+          PaneBox[GridBox[{
+             {
+              
+              DynamicModuleBox[{System`InformationDump`open$$ = {
+               False, False, False, False, False, False, False, False, False, 
+                False, False, False}}, 
+               StyleBox[GridBox[{
+                  {
+                   TagBox[
+                    TooltipBox[
+                    StyleBox["\<\" Documentation\"\>", "InformationRowLabel",
+                    StripOnInput->False],
+                    "\"Documentation\"",
+                    TooltipStyle->"TextStyling"],
+                    Annotation[#, "Documentation", "Tooltip"]& ], 
+                   
+                   TemplateBox[{
+                    TemplateBox[{
+                    "\"Local \[RightGuillemet]\"", "paclet:ref/HoldRest", 
+                    "paclet:ref/HoldRest", "Link", {
+                    RGBColor[0.9686274509803922, 0.4666666666666667, 0.]}, 
+                    BaseStyle -> {
+                    RGBColor[0.0784313725490196, 0.1568627450980392, 0.6]}}, 
+                    "HyperlinkTemplate"],"\"  \"",StyleBox[
+                    "\"|\"", "InformationRowLabel", StripOnInput -> False],
+                    "\"  \"",TemplateBox[{"\"Web \[RightGuillemet]\"", {
+                    URL[
+                    "http://reference.wolfram.com/language/ref/HoldRest.html"]\
+, None}, "http://reference.wolfram.com/language/ref/HoldRest.html", 
+                    "Hyperlink", {
+                    RGBColor[0.9686274509803922, 0.4666666666666667, 0.]}, 
+                    BaseStyle -> {
+                    RGBColor[0.0784313725490196, 0.1568627450980392, 0.6]}}, 
+                    "HyperlinkTemplate"]},
+                    "RowDefault"]},
+                  {
+                   TagBox[
+                    TooltipBox[
+                    StyleBox["\<\" Attributes\"\>", "InformationRowLabel",
+                    StripOnInput->False],
+                    "\"Attributes\"",
+                    TooltipStyle->"TextStyling"],
+                    Annotation[#, "Attributes", "Tooltip"]& ], 
+                   RowBox[{"{", "Protected", "}"}]},
+                  {
+                   TagBox[
+                    TooltipBox[
+                    StyleBox["\<\" Full Name\"\>", "InformationRowLabel",
+                    StripOnInput->False],
+                    "\"FullName\"",
+                    TooltipStyle->"TextStyling"],
+                    
+                    Annotation[#, "FullName", 
+                    "Tooltip"]& ], "\<\"System`HoldRest\"\>"}
+                 },
+                 AutoDelete->False,
+                 GridBoxAlignment->{"Columns" -> {Right, Left}},
+                 GridBoxDividers->None,
+                 GridBoxItemSize->{"Columns" -> {Automatic, Automatic}},
+                 GridBoxSpacings->{"Columns" -> {
+                    Offset[0.27999999999999997`], {
+                    Offset[0.5599999999999999]}, 
+                    Offset[0.27999999999999997`]}, "Rows" -> {
+                    Offset[0.2], {
+                    Offset[0.8]}, 
+                    Offset[0.2]}}], "DialogStyle",
+                StripOnInput->False],
+               DynamicModuleValues:>{}]}
+            },
+            DefaultBaseStyle->"Column",
+            GridBoxAlignment->{"Columns" -> {{Left}}},
+            GridBoxDividers->{"Columns" -> {{False}}, "Rows" -> {{False}}},
+            
+            GridBoxItemSize->{
+             "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+            GridBoxSpacings->{"Columns" -> {
+                Offset[0.27999999999999997`], {
+                 Offset[0.5599999999999999]}, 
+                Offset[0.27999999999999997`]}, "Rows" -> {
+                Offset[0.2], {
+                 Offset[3.6]}, 
+                Offset[0.2]}}],
+           FrameMargins->6], ""},
+         {
+          ItemBox[
+           TagBox[
+            ButtonBox[
+             PaneSelectorBox[{False->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "UpPointerOpener"]], True->
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "UpPointerOpenerHot"]]}, Dynamic[
+              System`InformationDump`mouseOver$$]],
+             Alignment->Left,
+             Appearance->{"Default" -> None},
+             
+             ButtonFunction:>FEPrivate`Set[
+              System`InformationDump`open$$, False],
+             Evaluator->Automatic,
+             FrameMargins->{{9, 0}, {0, 0}},
+             ImageMargins->0,
+             ImageSize->Full,
+             Method->"Preemptive"],
+            
+            EventHandlerTag[{
+             "MouseEntered" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, True], 
+              "MouseExited" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, False], 
+              Method -> "Preemptive", PassEventsDown -> Automatic, 
+              PassEventsUp -> True}]],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], "\[SpanFromLeft]"}
+        },
+        AutoDelete->False,
+        FrameStyle->Directive[
+          GrayLevel[0.8], 
+          Thickness[Tiny]],
+        GridBoxAlignment->{"Columns" -> {Left, Right}, "Rows" -> {{Center}}},
+        GridBoxDividers->{
+         "Columns" -> {{None}}, "Rows" -> {False, {True}, False}},
+        GridBoxItemSize->{
+         "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+       "Grid"], False->
+      TagBox[GridBox[{
+         {
+          ItemBox[
+           PaneBox[
+            StyleBox["\<\" Symbol\"\>", "InformationTitleText",
+             StripOnInput->False],
+            FrameMargins->{{4, 0}, {-1, 1}}],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], 
+          ItemBox[
+           PaneBox[
+            TooltipBox[
+             ButtonBox[
+              PaneSelectorBox[{False->
+               
+               DynamicBox[FEPrivate`FrontEndResource[
+                "FEBitmaps", "InformationHelpIcon"],
+                ImageSizeCache->{16., {5., 11.}}], True->
+               
+               DynamicBox[FEPrivate`FrontEndResource[
+                "FEBitmaps", "InformationHelpIconHot"],
+                ImageSizeCache->{16., {5., 11.}}]}, Dynamic[
+                CurrentValue["MouseOver"]]],
+              Appearance->None,
+              BaseStyle->"Link",
+              ButtonData->"paclet:ref/HoldRest",
+              ButtonNote->"paclet:ref/HoldRest"],
+             "\"paclet:ref/HoldRest\""],
+            FrameMargins->{{0, 4}, {0, 2}}],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           PaneBox[
+            
+            StyleBox["\<\"HoldRest is an attribute which specifies that all \
+but the first argument to a function are to be maintained in an unevaluated \
+form. \"\>", "InformationUsageText",
+             StripOnInput->False,
+             LineSpacing->{1.5, 1.5, 3.}],
+            FrameMargins->{{10, 10}, {8, 10}}],
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           TagBox[
+            ButtonBox[
+             PaneSelectorBox[{False->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "DownPointerOpener"],
+               ImageSizeCache->{12., {3., 9.}}], True->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "DownPointerOpenerHot"],
+               ImageSizeCache->{12., {3., 9.}}]}, Dynamic[
+              System`InformationDump`mouseOver$$]],
+             Alignment->Left,
+             Appearance->{"Default" -> None},
+             
+             ButtonFunction:>FEPrivate`Set[
+              System`InformationDump`open$$, True],
+             Evaluator->Automatic,
+             FrameMargins->{{9, 0}, {0, 0}},
+             ImageMargins->0,
+             ImageSize->Full,
+             Method->"Preemptive"],
+            
+            EventHandlerTag[{
+             "MouseEntered" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, True], 
+              "MouseExited" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, False], 
+              Method -> "Preemptive", PassEventsDown -> Automatic, 
+              PassEventsUp -> True}]],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], "\[SpanFromLeft]"}
+        },
+        AutoDelete->False,
+        FrameStyle->Directive[
+          GrayLevel[0.8], 
+          Thickness[Tiny]],
+        GridBoxAlignment->{"Columns" -> {Left, Right}, "Rows" -> {{Center}}},
+        GridBoxDividers->{
+         "Columns" -> {{None}}, "Rows" -> {False, {True}, False}},
+        GridBoxItemSize->{
+         "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+       "Grid"]}, Dynamic[System`InformationDump`open$$],
+      BaselinePosition->Baseline,
+      FrameMargins->0,
+      ImageSize->Automatic],
+     DynamicModuleValues:>{}],
+    BaseStyle->"InformationGridFrame",
+    StripOnInput->False], "InformationGridPlain",
+   StripOnInput->False],
+  InformationData[
+   Association[
+   "ObjectType" -> "Symbol", "Usage" -> 
+    "HoldRest is an attribute which specifies that all but the first argument \
+to a function are to be maintained in an unevaluated form. ", "Documentation" -> 
+    Association[
+     "Local" -> "paclet:ref/HoldRest", "Web" -> 
+      "http://reference.wolfram.com/language/ref/HoldRest.html"], "OwnValues" -> 
+    None, "UpValues" -> None, "DownValues" -> None, "SubValues" -> None, 
+    "DefaultValues" -> None, "NValues" -> None, "FormatValues" -> None, 
+    "Options" -> None, "Attributes" -> {Protected}, "FullName" -> 
+    "System`HoldRest"], False]]], "Output",
+ CellChangeTimes->{3.771778992727171*^9},
+ CellLabel->
+  "Out[380]=",ExpressionUUID->"d45cf4a6-fe16-4b39-9b8c-eeb1a0cc3ffa"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"(*", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"f", "[", "variable", "]"}], "=", 
+   RowBox[{"function", "\[IndentingNewLine]", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"f", "[", "variable", "]"}], "\[Equal]", 
+       RowBox[{"f", "[", 
+        RowBox[{"-", "variable"}], "]"}]}], ",", "\[IndentingNewLine]", "\t", 
+      "fourierCosCircleCookBook", ",", "\[IndentingNewLine]", "\t", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"f", "[", "x", "]"}], "=", 
+         RowBox[{"-", 
+          RowBox[{"f", "[", "x", "]"}]}]}], ",", "\[IndentingNewLine]", 
+        "\t\t", "fourierSinCircleCookBook"}], "]"}]}], "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", "]"}]}]}], "*)"}]], "Input",
+ CellChangeTimes->{{3.77177474393421*^9, 3.77177475242975*^9}, {
+  3.771775465196212*^9, 3.771775516174753*^9}, {3.7717758518750496`*^9, 
+  3.7717758998113647`*^9}, {3.7717760136340604`*^9, 3.7717760489571157`*^9}, {
+  3.7717786349776955`*^9, 
+  3.7717786361366343`*^9}},ExpressionUUID->"9763bc1a-e753-4954-9902-\
+c95ce6c75672"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", "If"}]], "Input",
+ CellChangeTimes->{{3.771774963256233*^9, 3.7717749653363037`*^9}},
+ CellLabel->
+  "In[368]:=",ExpressionUUID->"cb7420e6-6489-4465-85e5-3921ead93c3f"],
+
+Cell[BoxData[
+ InterpretationBox[
+  StyleBox[
+   FrameBox[
+    DynamicModuleBox[{System`InformationDump`open$$ = False, 
+     System`InformationDump`mouseOver$$ = False}, 
+     PaneSelectorBox[{True->
+      TagBox[GridBox[{
+         {
+          ItemBox[
+           PaneBox[
+            StyleBox["\<\" Symbol\"\>", "InformationTitleText",
+             StripOnInput->False,
+             BaseStyle -> None],
+            FrameMargins->{{4, 0}, {-1, 1}}],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], 
+          ItemBox[
+           PaneBox[
+            TooltipBox[
+             ButtonBox[
+              PaneSelectorBox[{False->
+               
+               DynamicBox[FEPrivate`FrontEndResource[
+                "FEBitmaps", "InformationHelpIcon"]], True->
+               
+               DynamicBox[FEPrivate`FrontEndResource[
+                "FEBitmaps", "InformationHelpIconHot"]]}, Dynamic[
+                CurrentValue["MouseOver"]]],
+              Appearance->None,
+              BaseStyle->"Link",
+              ButtonData->"paclet:ref/If",
+              ButtonNote->"paclet:ref/If"],
+             "\"paclet:ref/If\""],
+            FrameMargins->{{0, 4}, {0, 2}}],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           PaneBox[
+            
+            StyleBox["\<\"\\!\\(\\*RowBox[{\\\"If\\\", \\\"[\\\", \
+RowBox[{StyleBox[\\\"condition\\\", \\\"TI\\\"], \\\",\\\", \
+StyleBox[\\\"t\\\", \\\"TI\\\"], \\\",\\\", StyleBox[\\\"f\\\", \
+\\\"TI\\\"]}], \\\"]\\\"}]\\) gives \\!\\(\\*StyleBox[\\\"t\\\", \
+\\\"TI\\\"]\\) if \\!\\(\\*StyleBox[\\\"condition\\\", \\\"TI\\\"]\\) \
+evaluates to True, and \\!\\(\\*StyleBox[\\\"f\\\", \\\"TI\\\"]\\) if it \
+evaluates to False. \\n\\!\\(\\*RowBox[{\\\"If\\\", \\\"[\\\", \
+RowBox[{StyleBox[\\\"condition\\\", \\\"TI\\\"], \\\",\\\", \
+StyleBox[\\\"t\\\", \\\"TI\\\"], \\\",\\\", StyleBox[\\\"f\\\", \\\"TI\\\"], \
+\\\",\\\", StyleBox[\\\"u\\\", \\\"TI\\\"]}], \\\"]\\\"}]\\) gives \
+\\!\\(\\*StyleBox[\\\"u\\\", \\\"TI\\\"]\\) if \
+\\!\\(\\*StyleBox[\\\"condition\\\", \\\"TI\\\"]\\) evaluates to neither True \
+nor False. \"\>", "InformationUsageText",
+             StripOnInput->False,
+             LineSpacing->{1.5, 1.5, 3.}],
+            FrameMargins->{{10, 10}, {8, 10}}],
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False]},
+         {
+          PaneBox[GridBox[{
+             {
+              
+              DynamicModuleBox[{System`InformationDump`open$$ = {
+               False, False, False, False, False, False, False, False, False, 
+                False, False, False}}, 
+               StyleBox[GridBox[{
+                  {
+                   TagBox[
+                    TooltipBox[
+                    StyleBox["\<\" Documentation\"\>", "InformationRowLabel",
+                    StripOnInput->False],
+                    "\"Documentation\"",
+                    TooltipStyle->"TextStyling"],
+                    Annotation[#, "Documentation", "Tooltip"]& ], 
+                   
+                   TemplateBox[{
+                    TemplateBox[{
+                    "\"Local \[RightGuillemet]\"", "paclet:ref/If", 
+                    "paclet:ref/If", "Link", {
+                    RGBColor[0.9686274509803922, 0.4666666666666667, 0.]}, 
+                    BaseStyle -> {
+                    RGBColor[0.0784313725490196, 0.1568627450980392, 0.6]}}, 
+                    "HyperlinkTemplate"],"\"  \"",StyleBox[
+                    "\"|\"", "InformationRowLabel", StripOnInput -> False],
+                    "\"  \"",TemplateBox[{"\"Web \[RightGuillemet]\"", {
+                    URL["http://reference.wolfram.com/language/ref/If.html"], 
+                    None}, "http://reference.wolfram.com/language/ref/If.\
+html", "Hyperlink", {
+                    RGBColor[0.9686274509803922, 0.4666666666666667, 0.]}, 
+                    BaseStyle -> {
+                    RGBColor[0.0784313725490196, 0.1568627450980392, 0.6]}}, 
+                    "HyperlinkTemplate"]},
+                    "RowDefault"]},
+                  {
+                   TagBox[
+                    TooltipBox[
+                    StyleBox["\<\" Attributes\"\>", "InformationRowLabel",
+                    StripOnInput->False],
+                    "\"Attributes\"",
+                    TooltipStyle->"TextStyling"],
+                    Annotation[#, "Attributes", "Tooltip"]& ], 
+                   RowBox[{"{", 
+                    RowBox[{"HoldRest", ",", "Protected"}], "}"}]},
+                  {
+                   TagBox[
+                    TooltipBox[
+                    StyleBox["\<\" Full Name\"\>", "InformationRowLabel",
+                    StripOnInput->False],
+                    "\"FullName\"",
+                    TooltipStyle->"TextStyling"],
+                    
+                    Annotation[#, "FullName", 
+                    "Tooltip"]& ], "\<\"System`If\"\>"}
+                 },
+                 AutoDelete->False,
+                 GridBoxAlignment->{"Columns" -> {Right, Left}},
+                 GridBoxDividers->None,
+                 GridBoxItemSize->{"Columns" -> {Automatic, Automatic}},
+                 GridBoxSpacings->{"Columns" -> {
+                    Offset[0.27999999999999997`], {
+                    Offset[0.5599999999999999]}, 
+                    Offset[0.27999999999999997`]}, "Rows" -> {
+                    Offset[0.2], {
+                    Offset[0.8]}, 
+                    Offset[0.2]}}], "DialogStyle",
+                StripOnInput->False],
+               DynamicModuleValues:>{}]}
+            },
+            DefaultBaseStyle->"Column",
+            GridBoxAlignment->{"Columns" -> {{Left}}},
+            GridBoxDividers->{"Columns" -> {{False}}, "Rows" -> {{False}}},
+            
+            GridBoxItemSize->{
+             "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+            GridBoxSpacings->{"Columns" -> {
+                Offset[0.27999999999999997`], {
+                 Offset[0.5599999999999999]}, 
+                Offset[0.27999999999999997`]}, "Rows" -> {
+                Offset[0.2], {
+                 Offset[3.6]}, 
+                Offset[0.2]}}],
+           FrameMargins->6], ""},
+         {
+          ItemBox[
+           TagBox[
+            ButtonBox[
+             PaneSelectorBox[{False->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "UpPointerOpener"]], True->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "UpPointerOpenerHot"]]}, Dynamic[
+              System`InformationDump`mouseOver$$]],
+             Alignment->Left,
+             Appearance->{"Default" -> None},
+             
+             ButtonFunction:>FEPrivate`Set[
+              System`InformationDump`open$$, False],
+             Evaluator->Automatic,
+             FrameMargins->{{9, 0}, {0, 0}},
+             ImageMargins->0,
+             ImageSize->Full,
+             Method->"Preemptive"],
+            
+            EventHandlerTag[{
+             "MouseEntered" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, True], 
+              "MouseExited" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, False], 
+              Method -> "Preemptive", PassEventsDown -> Automatic, 
+              PassEventsUp -> True}]],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], "\[SpanFromLeft]"}
+        },
+        AutoDelete->False,
+        FrameStyle->Directive[
+          GrayLevel[0.8], 
+          Thickness[Tiny]],
+        GridBoxAlignment->{"Columns" -> {Left, Right}, "Rows" -> {{Center}}},
+        GridBoxDividers->{
+         "Columns" -> {{None}}, "Rows" -> {False, {True}, False}},
+        GridBoxItemSize->{
+         "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+       "Grid"], False->
+      TagBox[GridBox[{
+         {
+          ItemBox[
+           PaneBox[
+            StyleBox["\<\" Symbol\"\>", "InformationTitleText",
+             StripOnInput->False],
+            FrameMargins->{{4, 0}, {-1, 1}}],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], 
+          ItemBox[
+           PaneBox[
+            TooltipBox[
+             ButtonBox[
+              PaneSelectorBox[{False->
+               
+               DynamicBox[FEPrivate`FrontEndResource[
+                "FEBitmaps", "InformationHelpIcon"],
+                ImageSizeCache->{16., {5., 11.}}], True->
+               
+               DynamicBox[FEPrivate`FrontEndResource[
+                "FEBitmaps", "InformationHelpIconHot"],
+                ImageSizeCache->{16., {5., 11.}}]}, Dynamic[
+                CurrentValue["MouseOver"]]],
+              Appearance->None,
+              BaseStyle->"Link",
+              ButtonData->"paclet:ref/If",
+              ButtonNote->"paclet:ref/If"],
+             "\"paclet:ref/If\""],
+            FrameMargins->{{0, 4}, {0, 2}}],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           PaneBox[
+            
+            StyleBox["\<\"\\!\\(\\*RowBox[{\\\"If\\\", \\\"[\\\", \
+RowBox[{StyleBox[\\\"condition\\\", \\\"TI\\\"], \\\",\\\", \
+StyleBox[\\\"t\\\", \\\"TI\\\"], \\\",\\\", StyleBox[\\\"f\\\", \
+\\\"TI\\\"]}], \\\"]\\\"}]\\) gives \\!\\(\\*StyleBox[\\\"t\\\", \
+\\\"TI\\\"]\\) if \\!\\(\\*StyleBox[\\\"condition\\\", \\\"TI\\\"]\\) \
+evaluates to True, and \\!\\(\\*StyleBox[\\\"f\\\", \\\"TI\\\"]\\) if it \
+evaluates to False. \\n\\!\\(\\*RowBox[{\\\"If\\\", \\\"[\\\", \
+RowBox[{StyleBox[\\\"condition\\\", \\\"TI\\\"], \\\",\\\", \
+StyleBox[\\\"t\\\", \\\"TI\\\"], \\\",\\\", StyleBox[\\\"f\\\", \\\"TI\\\"], \
+\\\",\\\", StyleBox[\\\"u\\\", \\\"TI\\\"]}], \\\"]\\\"}]\\) gives \
+\\!\\(\\*StyleBox[\\\"u\\\", \\\"TI\\\"]\\) if \
+\\!\\(\\*StyleBox[\\\"condition\\\", \\\"TI\\\"]\\) evaluates to neither True \
+nor False. \"\>", "InformationUsageText",
+             StripOnInput->False,
+             LineSpacing->{1.5, 1.5, 3.}],
+            FrameMargins->{{10, 10}, {8, 10}}],
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           TagBox[
+            ButtonBox[
+             PaneSelectorBox[{False->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "DownPointerOpener"],
+               ImageSizeCache->{12., {3., 9.}}], True->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "DownPointerOpenerHot"],
+               ImageSizeCache->{12., {3., 9.}}]}, Dynamic[
+              System`InformationDump`mouseOver$$]],
+             Alignment->Left,
+             Appearance->{"Default" -> None},
+             
+             ButtonFunction:>FEPrivate`Set[
+              System`InformationDump`open$$, True],
+             Evaluator->Automatic,
+             FrameMargins->{{9, 0}, {0, 0}},
+             ImageMargins->0,
+             ImageSize->Full,
+             Method->"Preemptive"],
+            
+            EventHandlerTag[{
+             "MouseEntered" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, True], 
+              "MouseExited" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, False], 
+              Method -> "Preemptive", PassEventsDown -> Automatic, 
+              PassEventsUp -> True}]],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], "\[SpanFromLeft]"}
+        },
+        AutoDelete->False,
+        FrameStyle->Directive[
+          GrayLevel[0.8], 
+          Thickness[Tiny]],
+        GridBoxAlignment->{"Columns" -> {Left, Right}, "Rows" -> {{Center}}},
+        GridBoxDividers->{
+         "Columns" -> {{None}}, "Rows" -> {False, {True}, False}},
+        GridBoxItemSize->{
+         "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+       "Grid"]}, Dynamic[System`InformationDump`open$$],
+      BaselinePosition->Baseline,
+      FrameMargins->0,
+      ImageSize->Automatic],
+     DynamicModuleValues:>{}],
+    BaseStyle->"InformationGridFrame",
+    StripOnInput->False], "InformationGridPlain",
+   StripOnInput->False],
+  InformationData[
+   Association[
+   "ObjectType" -> "Symbol", "Usage" -> 
+    "\!\(\*RowBox[{\"If\", \"[\", RowBox[{StyleBox[\"condition\", \"TI\"], \
+\",\", StyleBox[\"t\", \"TI\"], \",\", StyleBox[\"f\", \"TI\"]}], \"]\"}]\) \
+gives \!\(\*StyleBox[\"t\", \"TI\"]\) if \!\(\*StyleBox[\"condition\", \
+\"TI\"]\) evaluates to True, and \!\(\*StyleBox[\"f\", \"TI\"]\) if it \
+evaluates to False. \n\!\(\*RowBox[{\"If\", \"[\", \
+RowBox[{StyleBox[\"condition\", \"TI\"], \",\", StyleBox[\"t\", \"TI\"], \
+\",\", StyleBox[\"f\", \"TI\"], \",\", StyleBox[\"u\", \"TI\"]}], \"]\"}]\) \
+gives \!\(\*StyleBox[\"u\", \"TI\"]\) if \!\(\*StyleBox[\"condition\", \
+\"TI\"]\) evaluates to neither True nor False. ", "Documentation" -> 
+    Association[
+     "Local" -> "paclet:ref/If", "Web" -> 
+      "http://reference.wolfram.com/language/ref/If.html"], "OwnValues" -> 
+    None, "UpValues" -> None, "DownValues" -> None, "SubValues" -> None, 
+    "DefaultValues" -> None, "NValues" -> None, "FormatValues" -> None, 
+    "Options" -> None, "Attributes" -> {HoldRest, Protected}, "FullName" -> 
+    "System`If"], False]]], "Output",
+ CellChangeTimes->{3.7717749666329117`*^9},
+ CellLabel->
+  "Out[368]=",ExpressionUUID->"43cde3fb-4ab6-42e3-9a59-95f4a811e4ea"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"fourierCircleCookBook", "[", 
+  RowBox[{
+   RowBox[{"x", "^", "2"}], ",", "x", ",", "7"}], "]"}]], "Input",
+ CellChangeTimes->{{3.771764296561028*^9, 3.771764310216402*^9}},
+ CellLabel->
+  "In[340]:=",ExpressionUUID->"6527d0f8-39bd-4e36-ad47-a0d6bb3d66ae"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"-", "4"}], " ", 
+   RowBox[{"Cos", "[", 
+    RowBox[{"x", "+", "$time"}], "]"}]}], "+", 
+  RowBox[{"Cos", "[", 
+   RowBox[{"2", " ", 
+    RowBox[{"(", 
+     RowBox[{"x", "+", "$time"}], ")"}]}], "]"}], "-", 
+  RowBox[{
+   FractionBox["4", "9"], " ", 
+   RowBox[{"Cos", "[", 
+    RowBox[{"3", " ", 
+     RowBox[{"(", 
+      RowBox[{"x", "+", "$time"}], ")"}]}], "]"}]}], "+", 
+  RowBox[{
+   FractionBox["1", "4"], " ", 
+   RowBox[{"Cos", "[", 
+    RowBox[{"4", " ", 
+     RowBox[{"(", 
+      RowBox[{"x", "+", "$time"}], ")"}]}], "]"}]}], "-", 
+  RowBox[{
+   FractionBox["4", "25"], " ", 
+   RowBox[{"Cos", "[", 
+    RowBox[{"5", " ", 
+     RowBox[{"(", 
+      RowBox[{"x", "+", "$time"}], ")"}]}], "]"}]}], "+", 
+  RowBox[{
+   FractionBox["1", "9"], " ", 
+   RowBox[{"Cos", "[", 
+    RowBox[{"6", " ", 
+     RowBox[{"(", 
+      RowBox[{"x", "+", "$time"}], ")"}]}], "]"}]}], "-", 
+  RowBox[{
+   FractionBox["4", "49"], " ", 
+   RowBox[{"Cos", "[", 
+    RowBox[{"7", " ", 
+     RowBox[{"(", 
+      RowBox[{"x", "+", "$time"}], ")"}]}], "]"}]}]}]], "Echo",
+ CellChangeTimes->{
+  3.771773561806669*^9},ExpressionUUID->"7b8acf17-a292-449e-8bd3-\
+9fe7ee4654b1"],
+
+Cell[BoxData[
+ RowBox[{"Row", "[", 
+  RowBox[{
+   TagBox[
+    StyleBox[
+     DynamicModuleBox[{$CellContext`$time$$ = -2.154063759248639, 
+      Typeset`show$$ = True, Typeset`bookmarkList$$ = {}, 
+      Typeset`bookmarkMode$$ = "Menu", Typeset`animator$$, Typeset`animvar$$ =
+       1, Typeset`name$$ = "\"untitled\"", Typeset`specs$$ = {{
+        Hold[$CellContext`$time$$], 0, (-2) Pi}}, Typeset`size$$ = {
+      432., {78., 84.}}, Typeset`update$$ = 0, Typeset`initDone$$, 
+      Typeset`skipInitDone$$ = True, $CellContext`$time$914017$$ = 0}, 
+      DynamicBox[Manipulate`ManipulateBoxes[
+       1, StandardForm, "Variables" :> {$CellContext`$time$$ = 0}, 
+        "ControllerVariables" :> {
+          Hold[$CellContext`$time$$, $CellContext`$time$914017$$, 0]}, 
+        "OtherVariables" :> {
+         Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+          Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+          Typeset`specs$$, Typeset`size$$, Typeset`update$$, 
+          Typeset`initDone$$, Typeset`skipInitDone$$}, "Body" :> Show[
+          Graphics[{
+            Apply[Sequence, {
+              Circle[{-9, 0}, 4], 
+              Circle[{-9, 0}, 1], 
+              Circle[{-9, 0}, 
+               Rational[4, 9]], 
+              Circle[{-9, 0}, 
+               Rational[1, 4]], 
+              Circle[{-9, 0}, 
+               Rational[4, 25]], 
+              Circle[{-9, 0}, 
+               Rational[1, 9]], 
+              Circle[{-9, 0}, 
+               Rational[4, 49]]}], 
+            Apply[Sequence, {
+              Style[
+               
+               Line[{{-9, 
+                 0}, {-9 - 4 Cos[$CellContext`$time$$], (-4) 
+                  Sin[$CellContext`$time$$]}, {
+                 0, (-4) Sin[$CellContext`$time$$]}}], 
+               Hue[0]], 
+              Style[
+               Line[{{-9, 0}, {-9 + Cos[2 $CellContext`$time$$], 
+                  Sin[2 $CellContext`$time$$]}, {0, 
+                  Sin[2 $CellContext`$time$$]}}], 
+               Hue[
+                Rational[1, 7]]], 
+              Style[
+               
+               Line[{{-9, 
+                 0}, {-9 + Rational[-4, 9] Cos[3 $CellContext`$time$$], 
+                  Rational[-4, 9] Sin[3 $CellContext`$time$$]}, {
+                 0, Rational[-4, 9] Sin[3 $CellContext`$time$$]}}], 
+               Hue[
+                Rational[2, 7]]], 
+              Style[
+               
+               Line[{{-9, 
+                 0}, {-9 + Rational[1, 4] Cos[4 $CellContext`$time$$], 
+                  Rational[1, 4] Sin[4 $CellContext`$time$$]}, {
+                 0, Rational[1, 4] Sin[4 $CellContext`$time$$]}}], 
+               Hue[
+                Rational[3, 7]]], 
+              Style[
+               
+               Line[{{-9, 
+                 0}, {-9 + Rational[-4, 25] Cos[5 $CellContext`$time$$], 
+                  Rational[-4, 25] Sin[5 $CellContext`$time$$]}, {
+                 0, Rational[-4, 25] Sin[5 $CellContext`$time$$]}}], 
+               Hue[
+                Rational[4, 7]]], 
+              Style[
+               
+               Line[{{-9, 
+                 0}, {-9 + Rational[1, 9] Cos[6 $CellContext`$time$$], 
+                  Rational[1, 9] Sin[6 $CellContext`$time$$]}, {
+                 0, Rational[1, 9] Sin[6 $CellContext`$time$$]}}], 
+               Hue[
+                Rational[5, 7]]], 
+              Style[
+               
+               Line[{{-9, 
+                 0}, {-9 + Rational[-4, 49] Cos[7 $CellContext`$time$$], 
+                  Rational[-4, 49] Sin[7 $CellContext`$time$$]}, {
+                 0, Rational[-4, 49] Sin[7 $CellContext`$time$$]}}], 
+               Hue[
+                Rational[6, 7]]]}]}, Axes -> True], 
+          Plot[{(-4) Sin[$CellContext`x + $CellContext`$time$$], 
+            Sin[2 ($CellContext`x + $CellContext`$time$$)], Rational[-4, 9] 
+            Sin[3 ($CellContext`x + $CellContext`$time$$)], Rational[1, 4] 
+            Sin[4 ($CellContext`x + $CellContext`$time$$)], Rational[-4, 25] 
+            Sin[5 ($CellContext`x + $CellContext`$time$$)], Rational[1, 9] 
+            Sin[6 ($CellContext`x + $CellContext`$time$$)], Rational[-4, 49] 
+            Sin[7 ($CellContext`x + $CellContext`$time$$)]}, {$CellContext`x, 
+            0, 10}, PlotStyle -> {
+             Hue[0], 
+             Hue[
+              Rational[1, 7]], 
+             Hue[
+              Rational[2, 7]], 
+             Hue[
+              Rational[3, 7]], 
+             Hue[
+              Rational[4, 7]], 
+             Hue[
+              Rational[5, 7]], 
+             Hue[
+              Rational[6, 7]]}, PlotRange -> All], PlotRange -> All], 
+        "Specifications" :> {{$CellContext`$time$$, 0, (-2) Pi, 
+           AnimationRunning -> False, 
+           AppearanceElements -> {
+            "ProgressSlider", "PlayPauseButton", "FasterSlowerButtons", 
+             "DirectionButton"}}}, 
+        "Options" :> {
+         ControlType -> Animator, AppearanceElements -> None, 
+          DefaultBaseStyle -> "Animate", DefaultLabelStyle -> "AnimateLabel", 
+          SynchronousUpdating -> True, ShrinkingDelay -> 10.}, 
+        "DefaultOptions" :> {}],
+       ImageSizeCache->{489., {123., 130.}},
+       SingleEvaluation->True],
+      Deinitialization:>None,
+      DynamicModuleValues:>{},
+      SynchronousInitialization->True,
+      UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+      UnsavedVariables:>{Typeset`initDone$$},
+      UntrackedVariables:>{Typeset`size$$}], "Animate",
+     Deployed->True,
+     StripOnInput->False],
+    Manipulate`InterpretManipulate[1]], ",", 
+   TagBox[
+    StyleBox[
+     DynamicModuleBox[{$CellContext`$time$$ = -3.58512761891455, 
+      Typeset`show$$ = True, Typeset`bookmarkList$$ = {}, 
+      Typeset`bookmarkMode$$ = "Menu", Typeset`animator$$, Typeset`animvar$$ =
+       1, Typeset`name$$ = "\"untitled\"", Typeset`specs$$ = {{
+        Hold[$CellContext`$time$$], 0, (-2) Pi}}, Typeset`size$$ = {
+      432., {89., 95.}}, Typeset`update$$ = 0, Typeset`initDone$$, 
+      Typeset`skipInitDone$$ = True, $CellContext`$time$914034$$ = 0}, 
+      DynamicBox[Manipulate`ManipulateBoxes[
+       1, StandardForm, "Variables" :> {$CellContext`$time$$ = 0}, 
+        "ControllerVariables" :> {
+          Hold[$CellContext`$time$$, $CellContext`$time$914034$$, 0]}, 
+        "OtherVariables" :> {
+         Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+          Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+          Typeset`specs$$, Typeset`size$$, Typeset`update$$, 
+          Typeset`initDone$$, Typeset`skipInitDone$$}, "Body" :> Show[
+          Graphics[{
+            Apply[Sequence, {{
+               Circle[{
+                 Rational[-487181, 44100], 0}, 4]}, {
+               
+               Circle[{
+                Rational[-487181, 44100] - 4 Sin[$CellContext`$time$$], (-4) 
+                 Cos[$CellContext`$time$$]}, 1]}, {
+               
+               Circle[{
+                Rational[-487181, 44100] - 4 Sin[$CellContext`$time$$] + 
+                 Sin[2 $CellContext`$time$$], (-4) Cos[$CellContext`$time$$] + 
+                 Cos[2 $CellContext`$time$$]}, 
+                Rational[4, 9]]}, {
+               
+               Circle[{
+                Rational[-487181, 44100] - 4 Sin[$CellContext`$time$$] + 
+                 Sin[2 $CellContext`$time$$] + 
+                 Rational[-4, 9] Sin[3 $CellContext`$time$$], (-4) 
+                  Cos[$CellContext`$time$$] + Cos[2 $CellContext`$time$$] + 
+                 Rational[-4, 9] Cos[3 $CellContext`$time$$]}, 
+                Rational[1, 4]]}, {
+               
+               Circle[{
+                Rational[-487181, 44100] - 4 Sin[$CellContext`$time$$] + 
+                 Sin[2 $CellContext`$time$$] + 
+                 Rational[-4, 9] Sin[3 $CellContext`$time$$] + 
+                 Rational[1, 4] Sin[4 $CellContext`$time$$], (-4) 
+                  Cos[$CellContext`$time$$] + Cos[2 $CellContext`$time$$] + 
+                 Rational[-4, 9] Cos[3 $CellContext`$time$$] + 
+                 Rational[1, 4] Cos[4 $CellContext`$time$$]}, 
+                Rational[4, 25]]}, {
+               
+               Circle[{
+                Rational[-487181, 44100] - 4 Sin[$CellContext`$time$$] + 
+                 Sin[2 $CellContext`$time$$] + 
+                 Rational[-4, 9] Sin[3 $CellContext`$time$$] + 
+                 Rational[1, 4] Sin[4 $CellContext`$time$$] + 
+                 Rational[-4, 25] Sin[5 $CellContext`$time$$], (-4) 
+                  Cos[$CellContext`$time$$] + Cos[2 $CellContext`$time$$] + 
+                 Rational[-4, 9] Cos[3 $CellContext`$time$$] + 
+                 Rational[1, 4] Cos[4 $CellContext`$time$$] + 
+                 Rational[-4, 25] Cos[5 $CellContext`$time$$]}, 
+                Rational[1, 9]]}, {
+               
+               Circle[{
+                Rational[-487181, 44100] - 4 Sin[$CellContext`$time$$] + 
+                 Sin[2 $CellContext`$time$$] + 
+                 Rational[-4, 9] Sin[3 $CellContext`$time$$] + 
+                 Rational[1, 4] Sin[4 $CellContext`$time$$] + 
+                 Rational[-4, 25] Sin[5 $CellContext`$time$$] + 
+                 Rational[1, 9] Sin[6 $CellContext`$time$$], (-4) 
+                  Cos[$CellContext`$time$$] + Cos[2 $CellContext`$time$$] + 
+                 Rational[-4, 9] Cos[3 $CellContext`$time$$] + 
+                 Rational[1, 4] Cos[4 $CellContext`$time$$] + 
+                 Rational[-4, 25] Cos[5 $CellContext`$time$$] + 
+                 Rational[1, 9] Cos[6 $CellContext`$time$$]}, 
+                Rational[4, 49]]}}], 
+            Line[{{
+               Rational[-487181, 44100], 0}, {
+              Rational[-487181, 44100] - 4 Sin[$CellContext`$time$$], (-4) 
+               Cos[$CellContext`$time$$]}, {
+              Rational[-487181, 44100] - 4 Sin[$CellContext`$time$$] + 
+               Sin[2 $CellContext`$time$$], (-4) Cos[$CellContext`$time$$] + 
+               Cos[2 $CellContext`$time$$]}, {
+              Rational[-487181, 44100] - 4 Sin[$CellContext`$time$$] + 
+               Sin[2 $CellContext`$time$$] + 
+               Rational[-4, 9] Sin[3 $CellContext`$time$$], (-4) 
+                Cos[$CellContext`$time$$] + Cos[2 $CellContext`$time$$] + 
+               Rational[-4, 9] Cos[3 $CellContext`$time$$]}, {
+              Rational[-487181, 44100] - 4 Sin[$CellContext`$time$$] + 
+               Sin[2 $CellContext`$time$$] + 
+               Rational[-4, 9] Sin[3 $CellContext`$time$$] + 
+               Rational[1, 4] Sin[4 $CellContext`$time$$], (-4) 
+                Cos[$CellContext`$time$$] + Cos[2 $CellContext`$time$$] + 
+               Rational[-4, 9] Cos[3 $CellContext`$time$$] + 
+               Rational[1, 4] Cos[4 $CellContext`$time$$]}, {
+              Rational[-487181, 44100] - 4 Sin[$CellContext`$time$$] + 
+               Sin[2 $CellContext`$time$$] + 
+               Rational[-4, 9] Sin[3 $CellContext`$time$$] + 
+               Rational[1, 4] Sin[4 $CellContext`$time$$] + 
+               Rational[-4, 25] Sin[5 $CellContext`$time$$], (-4) 
+                Cos[$CellContext`$time$$] + Cos[2 $CellContext`$time$$] + 
+               Rational[-4, 9] Cos[3 $CellContext`$time$$] + 
+               Rational[1, 4] Cos[4 $CellContext`$time$$] + 
+               Rational[-4, 25] Cos[5 $CellContext`$time$$]}, {
+              Rational[-487181, 44100] - 4 Sin[$CellContext`$time$$] + 
+               Sin[2 $CellContext`$time$$] + 
+               Rational[-4, 9] Sin[3 $CellContext`$time$$] + 
+               Rational[1, 4] Sin[4 $CellContext`$time$$] + 
+               Rational[-4, 25] Sin[5 $CellContext`$time$$] + 
+               Rational[1, 9] Sin[6 $CellContext`$time$$], (-4) 
+                Cos[$CellContext`$time$$] + Cos[2 $CellContext`$time$$] + 
+               Rational[-4, 9] Cos[3 $CellContext`$time$$] + 
+               Rational[1, 4] Cos[4 $CellContext`$time$$] + 
+               Rational[-4, 25] Cos[5 $CellContext`$time$$] + 
+               Rational[1, 9] Cos[6 $CellContext`$time$$]}, {
+              Rational[-487181, 44100] - 4 Sin[$CellContext`$time$$] + 
+               Sin[2 $CellContext`$time$$] + 
+               Rational[-4, 9] Sin[3 $CellContext`$time$$] + 
+               Rational[1, 4] Sin[4 $CellContext`$time$$] + 
+               Rational[-4, 25] Sin[5 $CellContext`$time$$] + 
+               Rational[1, 9] Sin[6 $CellContext`$time$$] + 
+               Rational[-4, 49] Sin[7 $CellContext`$time$$], (-4) 
+                Cos[$CellContext`$time$$] + Cos[2 $CellContext`$time$$] + 
+               Rational[-4, 9] Cos[3 $CellContext`$time$$] + 
+               Rational[1, 4] Cos[4 $CellContext`$time$$] + 
+               Rational[-4, 25] Cos[5 $CellContext`$time$$] + 
+               Rational[1, 9] Cos[6 $CellContext`$time$$] + 
+               Rational[-4, 49] Cos[7 $CellContext`$time$$]}, {
+              0, (-4) Cos[$CellContext`$time$$] + Cos[2 $CellContext`$time$$] + 
+               Rational[-4, 9] Cos[3 $CellContext`$time$$] + 
+               Rational[1, 4] Cos[4 $CellContext`$time$$] + 
+               Rational[-4, 25] Cos[5 $CellContext`$time$$] + 
+               Rational[1, 9] Cos[6 $CellContext`$time$$] + 
+               Rational[-4, 49] Cos[7 $CellContext`$time$$]}}]}, Axes -> 
+           True], 
+          
+          Plot[(-4) Cos[$CellContext`x + $CellContext`$time$$] + 
+           Cos[2 ($CellContext`x + $CellContext`$time$$)] + 
+           Rational[-4, 9] Cos[3 ($CellContext`x + $CellContext`$time$$)] + 
+           Rational[1, 4] Cos[4 ($CellContext`x + $CellContext`$time$$)] + 
+           Rational[-4, 25] Cos[5 ($CellContext`x + $CellContext`$time$$)] + 
+           Rational[1, 9] Cos[6 ($CellContext`x + $CellContext`$time$$)] + 
+           Rational[-4, 49] 
+            Cos[7 ($CellContext`x + $CellContext`$time$$)], {$CellContext`x, 
+            0, 10}, PlotRange -> Full], PlotRange -> All], 
+        "Specifications" :> {{$CellContext`$time$$, 0, (-2) Pi, 
+           AnimationRunning -> False, 
+           AppearanceElements -> {
+            "ProgressSlider", "PlayPauseButton", "FasterSlowerButtons", 
+             "DirectionButton"}}}, 
+        "Options" :> {
+         ControlType -> Animator, AppearanceElements -> None, 
+          DefaultBaseStyle -> "Animate", DefaultLabelStyle -> "AnimateLabel", 
+          SynchronousUpdating -> True, ShrinkingDelay -> 10.}, 
+        "DefaultOptions" :> {}],
+       ImageSizeCache->{489., {134., 141.}},
+       SingleEvaluation->True],
+      Deinitialization:>None,
+      DynamicModuleValues:>{},
+      SynchronousInitialization->True,
+      UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+      UnsavedVariables:>{Typeset`initDone$$},
+      UntrackedVariables:>{Typeset`size$$}], "Animate",
+     Deployed->True,
+     StripOnInput->False],
+    Manipulate`InterpretManipulate[1]]}], "]"}]], "Output",
+ CellChangeTimes->{
+  3.771764314544182*^9, 3.77176438125834*^9, 3.7717672415763164`*^9, 
+   3.771772599161461*^9, {3.7717734736836853`*^9, 3.771773497588058*^9}, 
+   3.7717735619636345`*^9},
+ CellLabel->
+  "Out[340]=",ExpressionUUID->"f5a9e2a0-8bb5-45cf-837f-b2e1dd501c73"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"unblendedCircleSmoothie", "[", 
+  RowBox[{
+   RowBox[{"x", "^", "3"}], ",", "x", ",", "5"}], "]"}]], "Input",
+ CellChangeTimes->{{3.7717721890868835`*^9, 3.771772199390687*^9}, {
+  3.771772418778059*^9, 3.7717724450467033`*^9}, {3.771772535902776*^9, 
+  3.7717725438145*^9}},
+ CellLabel->
+  "In[320]:=",ExpressionUUID->"ddc12e9a-7cad-41fb-8f45-4190127c62c2"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`$time$$ = -1.4169536332623436`, 
+    Typeset`show$$ = True, Typeset`bookmarkList$$ = {}, 
+    Typeset`bookmarkMode$$ = "Menu", Typeset`animator$$, Typeset`animvar$$ = 
+    1, Typeset`name$$ = "\"untitled\"", Typeset`specs$$ = {{
+      Hold[$CellContext`$time$$], 0, (-2) Pi}}, Typeset`size$$ = {
+    432., {106., 113.}}, Typeset`update$$ = 0, Typeset`initDone$$, 
+    Typeset`skipInitDone$$ = True, $CellContext`$time$832399$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, "Variables" :> {$CellContext`$time$$ = 0}, 
+      "ControllerVariables" :> {
+        Hold[$CellContext`$time$$, $CellContext`$time$832399$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> Show[
+        Graphics[{
+          Apply[Sequence, {
+            Circle[{-5 + 24/Pi - 6 Pi, 0}, (-24)/Pi + 6 Pi], 
+            Circle[{-5 + 24/Pi - 6 Pi, 0}, Rational[3, 2] Pi], 
+            
+            Circle[{-5 + 24/Pi - 6 Pi, 0}, Rational[-8, 27]/Pi + 
+             Rational[2, 3] Pi], 
+            Circle[{-5 + 24/Pi - 6 Pi, 0}, Rational[3, 8] Pi], 
+            
+            Circle[{-5 + 24/Pi - 6 Pi, 0}, Rational[6, 625] 
+             Pi^(-1) (-4 + 25 Pi^2)]}], 
+          Apply[Sequence, {
+            Style[
+             
+             Line[{{-5 + 24/Pi - 6 Pi, 0}, {-5 + 24/Pi - 6 
+                Pi + (24/Pi - 6 Pi) Cos[$CellContext`$time$$], (24/Pi - 6 Pi) 
+                Sin[$CellContext`$time$$]}, {
+               0, (24/Pi - 6 Pi) Sin[$CellContext`$time$$]}}], 
+             Hue[0]], 
+            Style[
+             
+             Line[{{-5 + 24/Pi - 6 Pi, 0}, {-5 + 24/Pi - 6 Pi + 
+                Rational[3, 2] Pi Cos[2 $CellContext`$time$$], Rational[3, 2] 
+                Pi Sin[2 $CellContext`$time$$]}, {
+               0, Rational[3, 2] Pi Sin[2 $CellContext`$time$$]}}], 
+             Hue[
+              Rational[1, 5]]], 
+            Style[
+             
+             Line[{{-5 + 24/Pi - 6 Pi, 0}, {-5 + 24/Pi - 6 
+                Pi + (Rational[8, 27]/Pi + Rational[-2, 3] Pi) 
+                 Cos[3 $CellContext`$time$$], (Rational[8, 27]/Pi + 
+                 Rational[-2, 3] Pi) Sin[3 $CellContext`$time$$]}, {
+               0, (Rational[8, 27]/Pi + Rational[-2, 3] Pi) 
+                Sin[3 $CellContext`$time$$]}}], 
+             Hue[
+              Rational[2, 5]]], 
+            Style[
+             
+             Line[{{-5 + 24/Pi - 6 Pi, 0}, {-5 + 24/Pi - 6 Pi + 
+                Rational[3, 8] Pi Cos[4 $CellContext`$time$$], Rational[3, 8] 
+                Pi Sin[4 $CellContext`$time$$]}, {
+               0, Rational[3, 8] Pi Sin[4 $CellContext`$time$$]}}], 
+             Hue[
+              Rational[3, 5]]], 
+            Style[
+             
+             Line[{{-5 + 24/Pi - 6 Pi, 0}, {-5 + 24/Pi - 6 Pi + 
+                Rational[6, 625] Pi^(-1) (4 - 25 Pi^2) 
+                 Cos[5 $CellContext`$time$$], Rational[6, 625] 
+                Pi^(-1) (4 - 25 Pi^2) Sin[5 $CellContext`$time$$]}, {
+               0, Rational[6, 625] Pi^(-1) (4 - 25 Pi^2) 
+                Sin[5 $CellContext`$time$$]}}], 
+             Hue[
+              Rational[4, 5]]]}]}, Axes -> True], 
+        Plot[{(24/Pi - 6 Pi) Sin[$CellContext`x + $CellContext`$time$$], 
+          Rational[3, 2] Pi 
+          Sin[2 ($CellContext`x + $CellContext`$time$$)], (Rational[8, 27]/Pi + 
+           Rational[-2, 3] Pi) Sin[3 ($CellContext`x + $CellContext`$time$$)],
+           Rational[3, 8] Pi Sin[4 ($CellContext`x + $CellContext`$time$$)], 
+          Rational[6, 625] Pi^(-1) (4 - 25 Pi^2) 
+          Sin[5 ($CellContext`x + $CellContext`$time$$)]}, {$CellContext`x, 0,
+           6 Pi}, PlotStyle -> {
+           Hue[0], 
+           Hue[
+            Rational[1, 5]], 
+           Hue[
+            Rational[2, 5]], 
+           Hue[
+            Rational[3, 5]], 
+           Hue[
+            Rational[4, 5]]}, PlotRange -> All], PlotRange -> All], 
+      "Specifications" :> {{$CellContext`$time$$, 0, (-2) Pi, 
+         AnimationRunning -> False, 
+         AppearanceElements -> {
+          "ProgressSlider", "PlayPauseButton", "FasterSlowerButtons", 
+           "DirectionButton"}}}, 
+      "Options" :> {
+       ControlType -> Animator, AppearanceElements -> None, DefaultBaseStyle -> 
+        "Animate", DefaultLabelStyle -> "AnimateLabel", SynchronousUpdating -> 
+        True, ShrinkingDelay -> 10.}, "DefaultOptions" :> {}],
+     ImageSizeCache->{489., {151., 158.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Animate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{
+  3.7717722279964046`*^9, 3.7717722818704753`*^9, 3.7717723123908873`*^9, 
+   3.7717723807463408`*^9, {3.771772422451642*^9, 3.7717724469717455`*^9}, {
+   3.771772532502944*^9, 3.7717725457053456`*^9}},
+ CellLabel->
+  "Out[320]=",ExpressionUUID->"85f6ffd4-ebcc-417d-a142-dab6c74412e4"]
+}, Open  ]],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ClearAll", "[", "unblendedSinCircleSmoothie", "]"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"unblendedSinCircleSmoothie", "[", 
+   RowBox[{"function_", ",", "variable_Symbol", ",", "numCir_Integer"}], 
+   "]"}], ":=", "\n", "\t", 
+  RowBox[{"Block", "[", "\n", "\t\t", 
+   RowBox[{
+    RowBox[{"{", "\n", "\t\t\t", 
+     RowBox[{
+      RowBox[{"fourierCoeff", "=", 
+       RowBox[{"Table", "[", 
+        RowBox[{
+         RowBox[{"FourierSinCoefficient", "[", 
+          RowBox[{"function", ",", "variable", ",", "p"}], "]"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"p", ",", "1", ",", "numCir"}], "}"}]}], "]"}]}], ",", "\n",
+       "\t\t\t", 
+      RowBox[{"color", "=", 
+       RowBox[{"Drop", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{"Hue", "[", "#", "]"}], "&"}], "/@", 
+          RowBox[{"Range", "[", 
+           RowBox[{"0", ",", "1", ",", 
+            RowBox[{"(", 
+             RowBox[{"1", "/", "numCir"}], ")"}]}], "]"}]}], ",", 
+         RowBox[{"-", "1"}]}], "]"}]}], ",", "\n", "\t\t\t", "circleList", 
+      ",", "basicCoord", ",", "manipulatedCoord", ",", "maxRadius", ",", 
+      "lineList", ",", "plotList", ",", "styledLines", ",", "prePlot"}], "\n",
+      "\t\t", "}"}], ",", "\n", "\t\t", 
+    RowBox[{
+     RowBox[{"circleList", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Circle", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"-", "maxRadius"}], "-", "5"}], ",", "0"}], "}"}], ",", 
+          "#1"}], "]"}], "&"}], "/@", 
+       RowBox[{"Abs", "@", "fourierCoeff"}]}]}], ";", "\n", "\t\t", 
+     RowBox[{"basicCoord", "=", 
+      RowBox[{"MapThread", "[", 
+       RowBox[{"Times", ",", 
+        RowBox[{"{", 
+         RowBox[{"fourierCoeff", ",", 
+          RowBox[{"Sin", "[", 
+           RowBox[{
+            RowBox[{"Range", "[", "numCir", "]"}], "*", "variable"}], "]"}]}],
+          "}"}]}], "]"}]}], ";", "\n", "\t\t", 
+     RowBox[{"manipulatedCoord", "=", 
+      RowBox[{"Transpose", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"basicCoord", "-", "maxRadius", "-", "5"}], ",", 
+         RowBox[{"basicCoord", "/.", 
+          RowBox[{"Sin", "\[Rule]", "Cos"}]}]}], "}"}], "]"}]}], ";", "\n", 
+     "\t\t", 
+     RowBox[{"maxRadius", "=", 
+      RowBox[{"Max", "[", 
+       RowBox[{"Abs", "@", "fourierCoeff"}], "]"}]}], ";", "\n", "\t\t", 
+     RowBox[{"lineList", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"Line", "[", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"-", "maxRadius"}], "-", "5"}], ",", "0"}], "}"}], ",",
+             "#1", ",", 
+            RowBox[{"{", 
+             RowBox[{"0", ",", 
+              RowBox[{"#1", "[", 
+               RowBox[{"[", "2", "]"}], "]"}]}], "}"}]}], "}"}], "]"}], "&"}],
+         "/@", "manipulatedCoord"}], "/.", 
+       RowBox[{"variable", "\[Rule]", "$time"}]}]}], ";", "\n", "\t\t", 
+     RowBox[{"styledLines", "=", 
+      RowBox[{"MapThread", "[", 
+       RowBox[{"Style", ",", 
+        RowBox[{"{", 
+         RowBox[{"lineList", ",", "color"}], "}"}]}], "]"}]}], ";", "\n", 
+     "\t\t", "\n", "\t\t", 
+     RowBox[{"prePlot", "=", 
+      RowBox[{"MapThread", "[", 
+       RowBox[{"Times", ",", 
+        RowBox[{"{", 
+         RowBox[{"fourierCoeff", ",", 
+          RowBox[{"Sin", "[", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"Range", "[", "numCir", "]"}], "*", 
+              RowBox[{"(", 
+               RowBox[{"variable", "+", "$time"}], ")"}]}], ")"}], "+", 
+            RowBox[{"(", 
+             RowBox[{"Pi", "/", "2"}], ")"}]}], "]"}]}], "}"}]}], "]"}]}], 
+     ";", "\n", "\t\t", 
+     RowBox[{"plotList", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Plot", "[", 
+         RowBox[{"#1", ",", 
+          RowBox[{"{", 
+           RowBox[{"variable", ",", "0", ",", "10"}], "}"}], ",", 
+          RowBox[{"PlotStyle", "\[Rule]", "#2"}]}], "]"}], "&"}], "@@@", 
+       RowBox[{"(", 
+        RowBox[{"Transpose", "[", 
+         RowBox[{"{", 
+          RowBox[{"prePlot", ",", "color"}], "}"}], "]"}], ")"}]}]}], ";", 
+     "\n", "\t\t", "\n", "\t\t", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Animate", "[", "\n", "\t\t\t", 
+        RowBox[{
+         RowBox[{"Show", "[", "\n", "\t\t\t\t", 
+          RowBox[{
+           RowBox[{"Graphics", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"Sequence", "@@", "#1"}], ",", 
+               RowBox[{"Sequence", "@@", "#2"}]}], "}"}], ",", 
+             RowBox[{"Axes", "\[Rule]", "True"}]}], "]"}], ",", "\n", 
+           "\t\t\t\t", 
+           RowBox[{"Plot", "[", 
+            RowBox[{"#3", ",", 
+             RowBox[{"{", 
+              RowBox[{"variable", ",", "0", ",", "10"}], "}"}], ",", 
+             RowBox[{"PlotStyle", "\[Rule]", "#4"}], ",", 
+             RowBox[{"PlotRange", "\[Rule]", "All"}]}], "]"}], ",", 
+           RowBox[{"PlotRange", "\[Rule]", "All"}]}], "\n", "\t\t\t\t", "]"}],
+          ",", "\n", "\t\t", 
+         RowBox[{"{", 
+          RowBox[{"$time", ",", "0", ",", 
+           RowBox[{
+            RowBox[{"-", "2"}], "Pi"}]}], "}"}], ",", 
+         RowBox[{"AnimationRunning", "\[Rule]", "False"}]}], "]"}], "&"}], "@@", 
+      RowBox[{"Evaluate", "[", 
+       RowBox[{"{", 
+        RowBox[{
+        "circleList", ",", "styledLines", ",", "prePlot", ",", "color"}], 
+        "}"}], "]"}]}]}]}], "\n", "\t", "\n", "\t", "]"}]}]}], "Code",
+ CellChangeTimes->{{3.7717737790800433`*^9, 3.7717737837351665`*^9}, {
+  3.7717739662654905`*^9, 3.7717740096892424`*^9}, {3.771774091551079*^9, 
+  3.7717741041111956`*^9}},
+ CellLabel->
+  "In[353]:=",ExpressionUUID->"cb412cb0-fe26-4c3b-863f-2336adcf3655"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"unblendedSinCircleSmoothie", "[", 
+  RowBox[{
+   RowBox[{"x", "^", "3"}], ",", "x", ",", "3"}], "]"}]], "Input",
+ CellChangeTimes->{{3.7717740247780247`*^9, 3.771774066396325*^9}},
+ CellLabel->
+  "In[355]:=",ExpressionUUID->"590529b8-3b0d-4dfc-9491-96995cd3af13"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`$time$$ = -2.2619882958450725`, 
+    Typeset`show$$ = True, Typeset`bookmarkList$$ = {}, 
+    Typeset`bookmarkMode$$ = "Menu", Typeset`animator$$, Typeset`animvar$$ = 
+    1, Typeset`name$$ = "\"untitled\"", Typeset`specs$$ = {{
+      Hold[$CellContext`$time$$], 0, (-2) Pi}}, Typeset`size$$ = {
+    950., {256., 262.}}, Typeset`update$$ = 0, Typeset`initDone$$, 
+    Typeset`skipInitDone$$ = True, $CellContext`$time$934656$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, "Variables" :> {$CellContext`$time$$ = 0}, 
+      "ControllerVariables" :> {
+        Hold[$CellContext`$time$$, $CellContext`$time$934656$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> Show[
+        Graphics[{
+          Apply[Sequence, {
+            Circle[{Rational[-7, 2] - Pi^2, 0}, 2 (-6 + Pi^2)], 
+            Circle[{Rational[-7, 2] - Pi^2, 0}, Rational[-3, 2] + Pi^2], 
+            
+            Circle[{Rational[-7, 2] - Pi^2, 0}, 
+             Rational[2, 9] (-2 + 3 Pi^2)]}], 
+          Apply[Sequence, {
+            Style[
+             
+             Line[{{Rational[-7, 2] - Pi^2, 0}, {
+               Rational[-7, 2] - Pi^2 + 
+                2 (-6 + Pi^2) Sin[$CellContext`$time$$], 2 (-6 + Pi^2) 
+                Cos[$CellContext`$time$$]}, {
+               0, 2 (-6 + Pi^2) Cos[$CellContext`$time$$]}}], 
+             Hue[0]], 
+            Style[
+             
+             Line[{{Rational[-7, 2] - Pi^2, 0}, {
+               Rational[-7, 2] - 
+                Pi^2 + (Rational[3, 2] - Pi^2) Sin[2 $CellContext`$time$$], (
+                 Rational[3, 2] - Pi^2) Cos[2 $CellContext`$time$$]}, {
+               0, (Rational[3, 2] - Pi^2) Cos[2 $CellContext`$time$$]}}], 
+             Hue[
+              Rational[1, 3]]], 
+            Style[
+             
+             Line[{{Rational[-7, 2] - Pi^2, 0}, {
+               Rational[-7, 2] - Pi^2 + 
+                Rational[2, 9] (-2 + 3 Pi^2) Sin[3 $CellContext`$time$$], 
+                Rational[2, 9] (-2 + 3 Pi^2) Cos[3 $CellContext`$time$$]}, {
+               0, Rational[2, 9] (-2 + 3 Pi^2) Cos[3 $CellContext`$time$$]}}], 
+             Hue[
+              Rational[2, 3]]]}]}, Axes -> True], 
+        Plot[{
+         2 (-6 + Pi^2) 
+          Cos[$CellContext`x + $CellContext`$time$$], (Rational[3, 2] - Pi^2) 
+          Cos[2 ($CellContext`x + $CellContext`$time$$)], 
+          Rational[2, 9] (-2 + 3 Pi^2) 
+          Cos[3 ($CellContext`x + $CellContext`$time$$)]}, {$CellContext`x, 0,
+           10}, PlotStyle -> {
+           Hue[0], 
+           Hue[
+            Rational[1, 3]], 
+           Hue[
+            Rational[2, 3]]}, PlotRange -> All], PlotRange -> All], 
+      "Specifications" :> {{$CellContext`$time$$, 0, (-2) Pi, 
+         AnimationRunning -> False, 
+         AppearanceElements -> {
+          "ProgressSlider", "PlayPauseButton", "FasterSlowerButtons", 
+           "DirectionButton"}}}, 
+      "Options" :> {
+       ControlType -> Animator, AppearanceElements -> None, DefaultBaseStyle -> 
+        "Animate", DefaultLabelStyle -> "AnimateLabel", SynchronousUpdating -> 
+        True, ShrinkingDelay -> 10.}, "DefaultOptions" :> {}],
+     ImageSizeCache->{1007., {301., 308.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Animate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{{3.7717740385805664`*^9, 3.7717740679247456`*^9}, 
+   3.771774108392315*^9},
+ CellLabel->
+  "Out[355]=",ExpressionUUID->"d09c322c-b4b5-45ce-b475-ea7132c49807"]
+}, Open  ]],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ClearAll", "[", "circleSinSmoothie2", "]"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"circleSinSmoothie2", "[", 
+   RowBox[{"function_", ",", "variable_Symbol", ",", "numCir_Integer"}], 
+   "]"}], ":=", "\n", "\t", 
+  RowBox[{"Block", "[", 
+   RowBox[{
+    RowBox[{"{", "\n", "\t\t", 
+     RowBox[{
+      RowBox[{"fourierConstant", "=", 
+       RowBox[{
+        RowBox[{"FourierSinCoefficient", "[", 
+         RowBox[{"function", ",", "variable", ",", "0"}], "]"}], "//", 
+        "ComplexExpand"}]}], ",", "\n", "\t\t", 
+      RowBox[{"fourierCoeff", "=", 
+       RowBox[{"Table", "[", 
+        RowBox[{
+         RowBox[{"FourierSinCoefficient", "[", 
+          RowBox[{"function", ",", "variable", ",", "p"}], "]"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"p", ",", "1", ",", "numCir"}], "}"}]}], "]"}]}], ",", "\n",
+       "\t\t", "basicCoord", ",", "manipulatedCoord", ",", "lastYCoord", ",", 
+      "totalRadius", ",", "combinedCir", ",", "cirCenter", ",", "\n", "\t\t", 
+      "cirArguments", ",", "finalPlot", ",", "lineSeries", ",", 
+      "centerOfFirstCir", ",", "listOfCoord", ",", "lastLinetoYaxis", ",", 
+      "\n", "\t\t", "lastXCoord", ",", "plotCoord", ",", "plotAllign"}], "\n",
+      "\t", "\n", "\t", "\n", "\t", "}"}], ",", "\n", "\t", "\n", "\t", 
+    RowBox[{
+     RowBox[{"totalRadius", "=", 
+      RowBox[{"Total", "[", 
+       RowBox[{"Abs", "@", "fourierCoeff"}], "]"}]}], ";", "\n", "\t", 
+     RowBox[{"basicCoord", "=", 
+      RowBox[{"MapThread", "[", 
+       RowBox[{"Times", ",", 
+        RowBox[{"{", 
+         RowBox[{"fourierCoeff", ",", 
+          RowBox[{"Sin", "[", 
+           RowBox[{
+            RowBox[{"Range", "[", "numCir", "]"}], "*", "$time"}], "]"}]}], 
+         "}"}]}], "]"}]}], ";", "\n", "\t", 
+     RowBox[{"manipulatedCoord", "=", 
+      RowBox[{"Join", "[", "\n", "\t\t", 
+       RowBox[{
+        RowBox[{"Take", "[", "\n", "\t\t\t", 
+         RowBox[{
+          RowBox[{"Transpose", "[", "\n", "\t\t\t", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{"basicCoord", "-", "totalRadius", "-", "5"}], ")"}], "/.", 
+              RowBox[{"Sin", "\[Rule]", "Cos"}]}], ",", "basicCoord"}], "}"}],
+            "]"}], ",", "1"}], "]"}], ",", "\n", "\t\t", 
+        RowBox[{"Drop", "[", 
+         RowBox[{
+          RowBox[{"Transpose", "[", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"basicCoord", "/.", 
+              RowBox[{"Sin", "\[Rule]", "Cos"}]}], ",", "basicCoord"}], "}"}],
+            "]"}], ",", "1"}], "]"}]}], "]"}]}], ";", "\n", "\t", 
+     RowBox[{"manipulatedCoord", "=", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"Plus", "@@@", 
+         RowBox[{"Table", "[", "\n", "\t\t\t\t\t\t\t\t", 
+          RowBox[{
+           RowBox[{"manipulatedCoord", "[", 
+            RowBox[{"[", 
+             RowBox[{";;", "n"}], "]"}], "]"}], ",", "\[IndentingNewLine]", 
+           "\t\t\t\t\t\t\t\t", 
+           RowBox[{"{", 
+            RowBox[{"n", ",", "1", ",", 
+             RowBox[{"Length", "[", "manipulatedCoord", "]"}]}], "}"}]}], 
+          "]"}]}], "//", 
+        RowBox[{"Prepend", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"-", "totalRadius"}], "-", "5"}], ",", "0"}], "}"}], 
+         "]"}]}], ")"}]}], ";", "\n", "\t\t\t\t\t\t\t\t", "\n", "\t", 
+     RowBox[{"lastYCoord", "=", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", 
+        RowBox[{"Take", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Take", "[", 
+            RowBox[{"manipulatedCoord", ",", 
+             RowBox[{"-", "1"}]}], "]"}], "//", "Flatten"}], ",", 
+          RowBox[{"-", "1"}]}], "]"}]}], "}"}]}], ";", "\n", "\t", 
+     RowBox[{"plotCoord", "=", 
+      RowBox[{"Echo", "@", 
+       RowBox[{"Total", "[", 
+        RowBox[{"MapThread", "[", 
+         RowBox[{"Times", ",", 
+          RowBox[{"{", 
+           RowBox[{"fourierCoeff", ",", 
+            RowBox[{"Sin", "[", 
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"(", 
+                RowBox[{"Range", "[", "numCir", "]"}], ")"}], "*", 
+               RowBox[{"(", 
+                RowBox[{"variable", "+", "$time"}], ")"}]}], ")"}], "]"}]}], 
+           "}"}]}], "]"}], "]"}]}]}], ";", "\n", "\t", 
+     RowBox[{"cirCenter", "=", 
+      RowBox[{"Drop", "[", 
+       RowBox[{"manipulatedCoord", ",", 
+        RowBox[{"-", "1"}]}], "]"}]}], ";", "\n", "\t", 
+     RowBox[{"cirArguments", "=", 
+      RowBox[{"Transpose", "[", 
+       RowBox[{"{", 
+        RowBox[{"cirCenter", ",", 
+         RowBox[{"Abs", "@", "fourierCoeff"}]}], "}"}], "]"}]}], ";", "\n", 
+     "\t", "\n", "\t", 
+     RowBox[{"lastLinetoYaxis", "=", 
+      RowBox[{"Prepend", "[", 
+       RowBox[{
+        RowBox[{"Take", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Take", "[", 
+            RowBox[{"manipulatedCoord", ",", 
+             RowBox[{"-", "1"}]}], "]"}], "//", "Flatten"}], ",", 
+          RowBox[{"-", "1"}]}], "]"}], ",", "0"}], "]"}]}], ";", "\n", "\t", 
+     "\n", "\t", 
+     RowBox[{"combinedCir", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"Circle", "[", 
+          RowBox[{"#1", ",", "#2"}], "]"}], "}"}], "&"}], "@@@", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"#1", "&"}], "/@", "cirArguments"}], ")"}]}]}], ";", "\n", 
+     "\t", 
+     RowBox[{"lineSeries", "=", " ", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Line", "[", "#1", "]"}], "&"}], "@", 
+       RowBox[{"(", 
+        RowBox[{"Append", "[", 
+         RowBox[{"manipulatedCoord", ",", "lastLinetoYaxis"}], "]"}], 
+        ")"}]}]}], ";", "\n", "\n", "\t", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Animate", "[", "\n", "\t\t\t", 
+        RowBox[{
+         RowBox[{"Show", "[", "\n", "\t\t\t\t", 
+          RowBox[{
+           RowBox[{"Graphics", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"Sequence", "@@", "#1"}], ",", "#2"}], "}"}], ",", 
+             RowBox[{"Axes", "\[Rule]", "True"}]}], "]"}], ",", "\n", 
+           "\t\t\t\t", 
+           RowBox[{"Plot", "[", 
+            RowBox[{"#3", ",", 
+             RowBox[{"{", 
+              RowBox[{"variable", ",", "0", ",", "30"}], "}"}], ",", 
+             RowBox[{"PlotRange", "->", "Full"}]}], "]"}], ",", 
+           RowBox[{"PlotRange", "\[Rule]", "All"}]}], "\n", 
+          "\t\t\t\t\t\t\t\t", "]"}], ",", "\n", "\t\t", 
+         RowBox[{"{", 
+          RowBox[{"$time", ",", "0", ",", 
+           RowBox[{
+            RowBox[{"-", "2"}], "Pi"}]}], "}"}], ",", 
+         RowBox[{"AnimationRunning", "\[Rule]", "False"}]}], "]"}], "&"}], "@@", 
+      RowBox[{"Evaluate", "[", 
+       RowBox[{"{", 
+        RowBox[{"combinedCir", ",", "lineSeries", ",", "plotCoord"}], "}"}], 
+       "]"}]}]}]}], "\n", "\t", "\n", "\t", "\n", "\t", "]"}]}]}], "Code",
+ CellChangeTimes->{{3.7717741953494234`*^9, 3.7717742516013393`*^9}, {
+  3.7717743069581428`*^9, 3.771774308450575*^9}, {3.771774469267847*^9, 
+  3.771774470676453*^9}},
+ CellLabel->
+  "In[365]:=",ExpressionUUID->"09dfbc7f-dbd2-45bc-99d4-b98efd2e08a5"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"circleSinSmoothie2", "[", 
+  RowBox[{
+   RowBox[{"x", "^", "3"}], ",", "x", ",", "7"}], "]"}]], "Input",
+ CellChangeTimes->{{3.77177428601252*^9, 3.7717742962764874`*^9}, {
+  3.7717744518010283`*^9, 3.771774452334705*^9}, {3.771775099873873*^9, 
+  3.771775119645844*^9}},
+ CellLabel->
+  "In[370]:=",ExpressionUUID->"606d227e-8b87-4240-9c0e-8d7865e23086"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"2", " ", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"-", "6"}], "+", 
+     SuperscriptBox["\[Pi]", "2"]}], ")"}], " ", 
+   RowBox[{"Sin", "[", 
+    RowBox[{"x", "+", "$time"}], "]"}]}], "+", 
+  RowBox[{
+   RowBox[{"(", 
+    RowBox[{
+     FractionBox["3", "2"], "-", 
+     SuperscriptBox["\[Pi]", "2"]}], ")"}], " ", 
+   RowBox[{"Sin", "[", 
+    RowBox[{"2", " ", 
+     RowBox[{"(", 
+      RowBox[{"x", "+", "$time"}], ")"}]}], "]"}]}], "+", 
+  RowBox[{
+   FractionBox["2", "9"], " ", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"-", "2"}], "+", 
+     RowBox[{"3", " ", 
+      SuperscriptBox["\[Pi]", "2"]}]}], ")"}], " ", 
+   RowBox[{"Sin", "[", 
+    RowBox[{"3", " ", 
+     RowBox[{"(", 
+      RowBox[{"x", "+", "$time"}], ")"}]}], "]"}]}], "+", 
+  RowBox[{
+   FractionBox["1", "16"], " ", 
+   RowBox[{"(", 
+    RowBox[{"3", "-", 
+     RowBox[{"8", " ", 
+      SuperscriptBox["\[Pi]", "2"]}]}], ")"}], " ", 
+   RowBox[{"Sin", "[", 
+    RowBox[{"4", " ", 
+     RowBox[{"(", 
+      RowBox[{"x", "+", "$time"}], ")"}]}], "]"}]}], "+", 
+  RowBox[{
+   FractionBox["2", "125"], " ", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"-", "6"}], "+", 
+     RowBox[{"25", " ", 
+      SuperscriptBox["\[Pi]", "2"]}]}], ")"}], " ", 
+   RowBox[{"Sin", "[", 
+    RowBox[{"5", " ", 
+     RowBox[{"(", 
+      RowBox[{"x", "+", "$time"}], ")"}]}], "]"}]}], "+", 
+  RowBox[{
+   FractionBox["1", "18"], " ", 
+   RowBox[{"(", 
+    RowBox[{"1", "-", 
+     RowBox[{"6", " ", 
+      SuperscriptBox["\[Pi]", "2"]}]}], ")"}], " ", 
+   RowBox[{"Sin", "[", 
+    RowBox[{"6", " ", 
+     RowBox[{"(", 
+      RowBox[{"x", "+", "$time"}], ")"}]}], "]"}]}], "+", 
+  RowBox[{
+   FractionBox["2", "343"], " ", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"-", "6"}], "+", 
+     RowBox[{"49", " ", 
+      SuperscriptBox["\[Pi]", "2"]}]}], ")"}], " ", 
+   RowBox[{"Sin", "[", 
+    RowBox[{"7", " ", 
+     RowBox[{"(", 
+      RowBox[{"x", "+", "$time"}], ")"}]}], "]"}]}]}]], "Echo",
+ CellChangeTimes->{
+  3.7717751233743935`*^9},ExpressionUUID->"134ccbab-f0d3-4001-a69a-\
+93ee4b97d923"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`$time$$ = 0, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{
+      Hold[$CellContext`$time$$], 0, (-2) Pi}}, Typeset`size$$ = {
+    432., {143., 150.}}, Typeset`update$$ = 0, Typeset`initDone$$, 
+    Typeset`skipInitDone$$ = True, $CellContext`$time$1058023$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, "Variables" :> {$CellContext`$time$$ = 0}, 
+      "ControllerVariables" :> {
+        Hold[$CellContext`$time$$, $CellContext`$time$1058023$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> Show[
+        Graphics[{
+          Apply[Sequence, {{
+             
+             Circle[{Rational[-7, 2] - Pi^2 + Rational[1, 16] (3 - 8 Pi^2) + 
+               Rational[1, 18] (1 - 6 Pi^2) - 2 (-6 + Pi^2) + 
+               Rational[-2, 9] (-2 + 3 Pi^2) + 
+               Rational[-2, 125] (-6 + 25 Pi^2) + 
+               Rational[-2, 343] (-6 + 49 Pi^2), 0}, 2 (-6 + Pi^2)]}, {
+             
+             Circle[{Rational[-7, 2] - Pi^2 + Rational[1, 16] (3 - 8 Pi^2) + 
+               Rational[1, 18] (1 - 6 Pi^2) - 2 (-6 + Pi^2) + 
+               Rational[-2, 9] (-2 + 3 Pi^2) + 
+               Rational[-2, 125] (-6 + 25 Pi^2) + 
+               Rational[-2, 343] (-6 + 49 Pi^2) + 
+               2 (-6 + Pi^2) Cos[$CellContext`$time$$], 2 (-6 + Pi^2) 
+               Sin[$CellContext`$time$$]}, Rational[-3, 2] + Pi^2]}, {
+             
+             Circle[{Rational[-7, 2] - Pi^2 + Rational[1, 16] (3 - 8 Pi^2) + 
+               Rational[1, 18] (1 - 6 Pi^2) - 2 (-6 + Pi^2) + 
+               Rational[-2, 9] (-2 + 3 Pi^2) + 
+               Rational[-2, 125] (-6 + 25 Pi^2) + 
+               Rational[-2, 343] (-6 + 49 Pi^2) + 
+               2 (-6 + Pi^2) 
+                Cos[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+                Cos[2 $CellContext`$time$$], 
+               2 (-6 + Pi^2) 
+                Sin[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+                Sin[2 $CellContext`$time$$]}, Rational[2, 9] (-2 + 3 Pi^2)]}, {
+             
+             Circle[{Rational[-7, 2] - Pi^2 + Rational[1, 16] (3 - 8 Pi^2) + 
+               Rational[1, 18] (1 - 6 Pi^2) - 2 (-6 + Pi^2) + 
+               Rational[-2, 9] (-2 + 3 Pi^2) + 
+               Rational[-2, 125] (-6 + 25 Pi^2) + 
+               Rational[-2, 343] (-6 + 49 Pi^2) + 
+               2 (-6 + Pi^2) 
+                Cos[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+                Cos[2 $CellContext`$time$$] + 
+               Rational[2, 9] (-2 + 3 Pi^2) Cos[3 $CellContext`$time$$], 
+               2 (-6 + Pi^2) 
+                Sin[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+                Sin[2 $CellContext`$time$$] + 
+               Rational[2, 9] (-2 + 3 Pi^2) Sin[3 $CellContext`$time$$]}, 
+              Rational[1, 16] (-3 + 8 Pi^2)]}, {
+             
+             Circle[{Rational[-7, 2] - Pi^2 + Rational[1, 16] (3 - 8 Pi^2) + 
+               Rational[1, 18] (1 - 6 Pi^2) - 2 (-6 + Pi^2) + 
+               Rational[-2, 9] (-2 + 3 Pi^2) + 
+               Rational[-2, 125] (-6 + 25 Pi^2) + 
+               Rational[-2, 343] (-6 + 49 Pi^2) + 
+               2 (-6 + Pi^2) 
+                Cos[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+                Cos[2 $CellContext`$time$$] + 
+               Rational[2, 9] (-2 + 3 Pi^2) Cos[3 $CellContext`$time$$] + 
+               Rational[1, 16] (3 - 8 Pi^2) Cos[4 $CellContext`$time$$], 
+               2 (-6 + Pi^2) 
+                Sin[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+                Sin[2 $CellContext`$time$$] + 
+               Rational[2, 9] (-2 + 3 Pi^2) Sin[3 $CellContext`$time$$] + 
+               Rational[1, 16] (3 - 8 Pi^2) Sin[4 $CellContext`$time$$]}, 
+              Rational[2, 125] (-6 + 25 Pi^2)]}, {
+             
+             Circle[{Rational[-7, 2] - Pi^2 + Rational[1, 16] (3 - 8 Pi^2) + 
+               Rational[1, 18] (1 - 6 Pi^2) - 2 (-6 + Pi^2) + 
+               Rational[-2, 9] (-2 + 3 Pi^2) + 
+               Rational[-2, 125] (-6 + 25 Pi^2) + 
+               Rational[-2, 343] (-6 + 49 Pi^2) + 
+               2 (-6 + Pi^2) 
+                Cos[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+                Cos[2 $CellContext`$time$$] + 
+               Rational[2, 9] (-2 + 3 Pi^2) Cos[3 $CellContext`$time$$] + 
+               Rational[1, 16] (3 - 8 Pi^2) Cos[4 $CellContext`$time$$] + 
+               Rational[2, 125] (-6 + 25 Pi^2) Cos[5 $CellContext`$time$$], 
+               2 (-6 + Pi^2) 
+                Sin[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+                Sin[2 $CellContext`$time$$] + 
+               Rational[2, 9] (-2 + 3 Pi^2) Sin[3 $CellContext`$time$$] + 
+               Rational[1, 16] (3 - 8 Pi^2) Sin[4 $CellContext`$time$$] + 
+               Rational[2, 125] (-6 + 25 Pi^2) Sin[5 $CellContext`$time$$]}, 
+              Rational[1, 18] (-1 + 6 Pi^2)]}, {
+             
+             Circle[{Rational[-7, 2] - Pi^2 + Rational[1, 16] (3 - 8 Pi^2) + 
+               Rational[1, 18] (1 - 6 Pi^2) - 2 (-6 + Pi^2) + 
+               Rational[-2, 9] (-2 + 3 Pi^2) + 
+               Rational[-2, 125] (-6 + 25 Pi^2) + 
+               Rational[-2, 343] (-6 + 49 Pi^2) + 
+               2 (-6 + Pi^2) 
+                Cos[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+                Cos[2 $CellContext`$time$$] + 
+               Rational[2, 9] (-2 + 3 Pi^2) Cos[3 $CellContext`$time$$] + 
+               Rational[1, 16] (3 - 8 Pi^2) Cos[4 $CellContext`$time$$] + 
+               Rational[2, 125] (-6 + 25 Pi^2) Cos[5 $CellContext`$time$$] + 
+               Rational[1, 18] (1 - 6 Pi^2) Cos[6 $CellContext`$time$$], 
+               2 (-6 + Pi^2) 
+                Sin[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+                Sin[2 $CellContext`$time$$] + 
+               Rational[2, 9] (-2 + 3 Pi^2) Sin[3 $CellContext`$time$$] + 
+               Rational[1, 16] (3 - 8 Pi^2) Sin[4 $CellContext`$time$$] + 
+               Rational[2, 125] (-6 + 25 Pi^2) Sin[5 $CellContext`$time$$] + 
+               Rational[1, 18] (1 - 6 Pi^2) Sin[6 $CellContext`$time$$]}, 
+              Rational[2, 343] (-6 + 49 Pi^2)]}}], 
+          
+          Line[{{Rational[-7, 2] - Pi^2 + Rational[1, 16] (3 - 8 Pi^2) + 
+             Rational[1, 18] (1 - 6 Pi^2) - 2 (-6 + Pi^2) + 
+             Rational[-2, 9] (-2 + 3 Pi^2) + Rational[-2, 125] (-6 + 25 Pi^2) + 
+             Rational[-2, 343] (-6 + 49 Pi^2), 0}, {
+            Rational[-7, 2] - Pi^2 + Rational[1, 16] (3 - 8 Pi^2) + 
+             Rational[1, 18] (1 - 6 Pi^2) - 2 (-6 + Pi^2) + 
+             Rational[-2, 9] (-2 + 3 Pi^2) + Rational[-2, 125] (-6 + 25 Pi^2) + 
+             Rational[-2, 343] (-6 + 49 Pi^2) + 
+             2 (-6 + Pi^2) Cos[$CellContext`$time$$], 2 (-6 + Pi^2) 
+             Sin[$CellContext`$time$$]}, {
+            Rational[-7, 2] - Pi^2 + Rational[1, 16] (3 - 8 Pi^2) + 
+             Rational[1, 18] (1 - 6 Pi^2) - 2 (-6 + Pi^2) + 
+             Rational[-2, 9] (-2 + 3 Pi^2) + Rational[-2, 125] (-6 + 25 Pi^2) + 
+             Rational[-2, 343] (-6 + 49 Pi^2) + 
+             2 (-6 + Pi^2) 
+              Cos[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+              Cos[2 $CellContext`$time$$], 
+             2 (-6 + Pi^2) 
+              Sin[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+              Sin[2 $CellContext`$time$$]}, {
+            Rational[-7, 2] - Pi^2 + Rational[1, 16] (3 - 8 Pi^2) + 
+             Rational[1, 18] (1 - 6 Pi^2) - 2 (-6 + Pi^2) + 
+             Rational[-2, 9] (-2 + 3 Pi^2) + Rational[-2, 125] (-6 + 25 Pi^2) + 
+             Rational[-2, 343] (-6 + 49 Pi^2) + 
+             2 (-6 + Pi^2) 
+              Cos[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+              Cos[2 $CellContext`$time$$] + 
+             Rational[2, 9] (-2 + 3 Pi^2) Cos[3 $CellContext`$time$$], 
+             2 (-6 + Pi^2) 
+              Sin[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+              Sin[2 $CellContext`$time$$] + 
+             Rational[2, 9] (-2 + 3 Pi^2) Sin[3 $CellContext`$time$$]}, {
+            Rational[-7, 2] - Pi^2 + Rational[1, 16] (3 - 8 Pi^2) + 
+             Rational[1, 18] (1 - 6 Pi^2) - 2 (-6 + Pi^2) + 
+             Rational[-2, 9] (-2 + 3 Pi^2) + Rational[-2, 125] (-6 + 25 Pi^2) + 
+             Rational[-2, 343] (-6 + 49 Pi^2) + 
+             2 (-6 + Pi^2) 
+              Cos[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+              Cos[2 $CellContext`$time$$] + 
+             Rational[2, 9] (-2 + 3 Pi^2) Cos[3 $CellContext`$time$$] + 
+             Rational[1, 16] (3 - 8 Pi^2) Cos[4 $CellContext`$time$$], 
+             2 (-6 + Pi^2) 
+              Sin[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+              Sin[2 $CellContext`$time$$] + 
+             Rational[2, 9] (-2 + 3 Pi^2) Sin[3 $CellContext`$time$$] + 
+             Rational[1, 16] (3 - 8 Pi^2) Sin[4 $CellContext`$time$$]}, {
+            Rational[-7, 2] - Pi^2 + Rational[1, 16] (3 - 8 Pi^2) + 
+             Rational[1, 18] (1 - 6 Pi^2) - 2 (-6 + Pi^2) + 
+             Rational[-2, 9] (-2 + 3 Pi^2) + Rational[-2, 125] (-6 + 25 Pi^2) + 
+             Rational[-2, 343] (-6 + 49 Pi^2) + 
+             2 (-6 + Pi^2) 
+              Cos[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+              Cos[2 $CellContext`$time$$] + 
+             Rational[2, 9] (-2 + 3 Pi^2) Cos[3 $CellContext`$time$$] + 
+             Rational[1, 16] (3 - 8 Pi^2) Cos[4 $CellContext`$time$$] + 
+             Rational[2, 125] (-6 + 25 Pi^2) Cos[5 $CellContext`$time$$], 
+             2 (-6 + Pi^2) 
+              Sin[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+              Sin[2 $CellContext`$time$$] + 
+             Rational[2, 9] (-2 + 3 Pi^2) Sin[3 $CellContext`$time$$] + 
+             Rational[1, 16] (3 - 8 Pi^2) Sin[4 $CellContext`$time$$] + 
+             Rational[2, 125] (-6 + 25 Pi^2) Sin[5 $CellContext`$time$$]}, {
+            Rational[-7, 2] - Pi^2 + Rational[1, 16] (3 - 8 Pi^2) + 
+             Rational[1, 18] (1 - 6 Pi^2) - 2 (-6 + Pi^2) + 
+             Rational[-2, 9] (-2 + 3 Pi^2) + Rational[-2, 125] (-6 + 25 Pi^2) + 
+             Rational[-2, 343] (-6 + 49 Pi^2) + 
+             2 (-6 + Pi^2) 
+              Cos[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+              Cos[2 $CellContext`$time$$] + 
+             Rational[2, 9] (-2 + 3 Pi^2) Cos[3 $CellContext`$time$$] + 
+             Rational[1, 16] (3 - 8 Pi^2) Cos[4 $CellContext`$time$$] + 
+             Rational[2, 125] (-6 + 25 Pi^2) Cos[5 $CellContext`$time$$] + 
+             Rational[1, 18] (1 - 6 Pi^2) Cos[6 $CellContext`$time$$], 
+             2 (-6 + Pi^2) 
+              Sin[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+              Sin[2 $CellContext`$time$$] + 
+             Rational[2, 9] (-2 + 3 Pi^2) Sin[3 $CellContext`$time$$] + 
+             Rational[1, 16] (3 - 8 Pi^2) Sin[4 $CellContext`$time$$] + 
+             Rational[2, 125] (-6 + 25 Pi^2) Sin[5 $CellContext`$time$$] + 
+             Rational[1, 18] (1 - 6 Pi^2) Sin[6 $CellContext`$time$$]}, {
+            Rational[-7, 2] - Pi^2 + Rational[1, 16] (3 - 8 Pi^2) + 
+             Rational[1, 18] (1 - 6 Pi^2) - 2 (-6 + Pi^2) + 
+             Rational[-2, 9] (-2 + 3 Pi^2) + Rational[-2, 125] (-6 + 25 Pi^2) + 
+             Rational[-2, 343] (-6 + 49 Pi^2) + 
+             2 (-6 + Pi^2) 
+              Cos[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+              Cos[2 $CellContext`$time$$] + 
+             Rational[2, 9] (-2 + 3 Pi^2) Cos[3 $CellContext`$time$$] + 
+             Rational[1, 16] (3 - 8 Pi^2) Cos[4 $CellContext`$time$$] + 
+             Rational[2, 125] (-6 + 25 Pi^2) Cos[5 $CellContext`$time$$] + 
+             Rational[1, 18] (1 - 6 Pi^2) Cos[6 $CellContext`$time$$] + 
+             Rational[2, 343] (-6 + 49 Pi^2) Cos[7 $CellContext`$time$$], 
+             2 (-6 + Pi^2) 
+              Sin[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+              Sin[2 $CellContext`$time$$] + 
+             Rational[2, 9] (-2 + 3 Pi^2) Sin[3 $CellContext`$time$$] + 
+             Rational[1, 16] (3 - 8 Pi^2) Sin[4 $CellContext`$time$$] + 
+             Rational[2, 125] (-6 + 25 Pi^2) Sin[5 $CellContext`$time$$] + 
+             Rational[1, 18] (1 - 6 Pi^2) Sin[6 $CellContext`$time$$] + 
+             Rational[2, 343] (-6 + 49 Pi^2) Sin[7 $CellContext`$time$$]}, {
+            0, 2 (-6 + Pi^2) 
+              Sin[$CellContext`$time$$] + (Rational[3, 2] - Pi^2) 
+              Sin[2 $CellContext`$time$$] + 
+             Rational[2, 9] (-2 + 3 Pi^2) Sin[3 $CellContext`$time$$] + 
+             Rational[1, 16] (3 - 8 Pi^2) Sin[4 $CellContext`$time$$] + 
+             Rational[2, 125] (-6 + 25 Pi^2) Sin[5 $CellContext`$time$$] + 
+             Rational[1, 18] (1 - 6 Pi^2) Sin[6 $CellContext`$time$$] + 
+             Rational[2, 343] (-6 + 49 Pi^2) Sin[7 $CellContext`$time$$]}}]}, 
+         Axes -> True], 
+        Plot[
+        2 (-6 + Pi^2) 
+          Sin[$CellContext`x + $CellContext`$time$$] + (Rational[3, 2] - Pi^2)
+            Sin[2 ($CellContext`x + $CellContext`$time$$)] + 
+         Rational[2, 9] (-2 + 3 Pi^2) 
+          Sin[3 ($CellContext`x + $CellContext`$time$$)] + 
+         Rational[1, 16] (3 - 8 Pi^2) 
+          Sin[4 ($CellContext`x + $CellContext`$time$$)] + 
+         Rational[2, 125] (-6 + 25 Pi^2) 
+          Sin[5 ($CellContext`x + $CellContext`$time$$)] + 
+         Rational[1, 18] (1 - 6 Pi^2) 
+          Sin[6 ($CellContext`x + $CellContext`$time$$)] + 
+         Rational[2, 343] (-6 + 49 Pi^2) 
+          Sin[7 ($CellContext`x + $CellContext`$time$$)], {$CellContext`x, 0, 
+          30}, PlotRange -> Full], PlotRange -> All], 
+      "Specifications" :> {{$CellContext`$time$$, 0, (-2) Pi, 
+         AnimationRunning -> False, 
+         AppearanceElements -> {
+          "ProgressSlider", "PlayPauseButton", "FasterSlowerButtons", 
+           "DirectionButton"}}}, 
+      "Options" :> {
+       ControlType -> Animator, AppearanceElements -> None, DefaultBaseStyle -> 
+        "Animate", DefaultLabelStyle -> "AnimateLabel", SynchronousUpdating -> 
+        True, ShrinkingDelay -> 10.}, "DefaultOptions" :> {}],
+     ImageSizeCache->{489., {188., 195.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Animate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{{3.771774296859786*^9, 3.7717743138771877`*^9}, {
+  3.7717744583076105`*^9, 3.771774483429039*^9}, {3.771775104000223*^9, 
+  3.7717751234545126`*^9}},
+ CellLabel->
+  "Out[370]=",ExpressionUUID->"8f6779ec-8c91-4ed1-8bc0-3a9e3380ed68"]
+}, Open  ]]
+},
+WindowSize->{1440, 877},
+WindowMargins->{{-8, Automatic}, {Automatic, -8}},
+Magnification:>1.2 Inherited,
+FrontEndVersion->"12.0 for Microsoft Windows (64-bit) (April 11, 2019)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[561, 20, 6129, 157, 634, "Code",ExpressionUUID->"bde045ea-31b4-4314-9280-648aabffbba5"],
+Cell[6693, 179, 7662, 186, 986, "Code",ExpressionUUID->"c494fc6a-fefa-4018-a3ab-c605b99937c0"],
+Cell[14358, 367, 2415, 53, 392, "Code",ExpressionUUID->"a491872a-8c81-49bf-84ec-b3ba459b0bf5"],
+Cell[CellGroupData[{
+Cell[16798, 424, 279, 6, 35, "Input",ExpressionUUID->"0fe39da0-a601-493e-9943-3c186d030127"],
+Cell[17080, 432, 1485, 52, 44, "Echo",ExpressionUUID->"82856f2d-96d3-4b3a-9a3f-d4fa4fcd3d00"],
+Cell[18568, 486, 14893, 297, 395, "Output",ExpressionUUID->"21cd3b1f-e5fe-4353-9613-acbca8a69d79"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[33498, 788, 215, 4, 35, "Input",ExpressionUUID->"4063e601-2875-48cc-b631-c0db92d14b89"],
+Cell[33716, 794, 267, 6, 39, "Output",ExpressionUUID->"98ccfa0e-ef72-44d0-a779-5873a27d4ad5"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[34020, 805, 204, 4, 35, "Input",ExpressionUUID->"9d55415d-2493-4b65-83b9-ccf0246fcdde"],
+Cell[34227, 811, 11932, 290, 113, "Output",ExpressionUUID->"d45cf4a6-fe16-4b39-9b8c-eeb1a0cc3ffa"]
+}, Open  ]],
+Cell[46174, 1104, 1105, 25, 204, "Input",ExpressionUUID->"9763bc1a-e753-4954-9902-c95ce6c75672"],
+Cell[CellGroupData[{
+Cell[47304, 1133, 196, 4, 35, "Input",ExpressionUUID->"cb7420e6-6489-4465-85e5-3921ead93c3f"],
+Cell[47503, 1139, 13716, 318, 143, "Output",ExpressionUUID->"43cde3fb-4ab6-42e3-9a59-95f4a811e4ea"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[61256, 1462, 280, 6, 35, "Input",ExpressionUUID->"6527d0f8-39bd-4e36-ad47-a0d6bb3d66ae"],
+Cell[61539, 1470, 1203, 42, 44, "Echo",ExpressionUUID->"7b8acf17-a292-449e-8bd3-9fe7ee4654b1"],
+Cell[62745, 1514, 15084, 302, 297, "Output",ExpressionUUID->"f5a9e2a0-8bb5-45cf-837f-b2e1dd501c73"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[77866, 1821, 382, 8, 35, "Input",ExpressionUUID->"ddc12e9a-7cad-41fb-8f45-4190127c62c2"],
+Cell[78251, 1831, 5382, 116, 331, "Output",ExpressionUUID->"85f6ffd4-ebcc-417d-a142-dab6c74412e4"]
+}, Open  ]],
+Cell[83648, 1950, 5874, 153, 634, "Code",ExpressionUUID->"cb412cb0-fe26-4c3b-863f-2336adcf3655"],
+Cell[CellGroupData[{
+Cell[89547, 2107, 287, 6, 35, "Input",ExpressionUUID->"590529b8-3b0d-4dfc-9491-96995cd3af13"],
+Cell[89837, 2115, 4043, 88, 631, "Output",ExpressionUUID->"d09c322c-b4b5-45ce-b475-ea7132c49807"]
+}, Open  ]],
+Cell[93895, 2206, 7179, 180, 986, "Code",ExpressionUUID->"09dfbc7f-dbd2-45bc-99d4-b98efd2e08a5"],
+Cell[CellGroupData[{
+Cell[101099, 2390, 378, 8, 35, "Input",ExpressionUUID->"606d227e-8b87-4240-9c0e-8d7865e23086"],
+Cell[101480, 2400, 2082, 73, 84, "Echo",ExpressionUUID->"134ccbab-f0d3-4001-a69a-93ee4b97d923"],
+Cell[103565, 2475, 15099, 268, 405, "Output",ExpressionUUID->"8f6779ec-8c91-4ed1-8bc0-3a9e3380ed68"]
+}, Open  ]]
+}
+]
+*)
+
