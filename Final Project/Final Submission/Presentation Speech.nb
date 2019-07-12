@@ -1,0 +1,56 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='WolframDesktop 12.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       161,          7]
+NotebookDataLength[      1368,         46]
+NotebookOptionsPosition[      1078,         33]
+NotebookOutlinePosition[      1420,         48]
+CellTagsIndexPosition[      1377,         45]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+  "SpeechSynthesize", "[", 
+   "\"\<Hello, My name is Mukilan Karthikeyan. My Project is visualizing the \
+fourier series for curves. The Fourier Series is the concept that you can \
+generate any curve as a sum of multiple trignometric functions.\>\"", "]"}], 
+  "\[IndentingNewLine]"}]], "Input",
+ CellChangeTimes->{{3.771943215554715*^9, 3.7719433287838264`*^9}, {
+  3.7719434221679883`*^9, 
+  3.7719434830595937`*^9}},ExpressionUUID->"e52e9d7b-d168-496e-b38e-\
+8514ea6565fa"]
+},
+WindowSize->{1424, 877},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"12.0 for Microsoft Windows (64-bit) (April 11, 2019)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[561, 20, 513, 11, 86, "Input",ExpressionUUID->"e52e9d7b-d168-496e-b38e-8514ea6565fa"]
+}
+]
+*)
+
+(* End of internal cache information *)
+
