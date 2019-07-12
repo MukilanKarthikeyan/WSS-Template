@@ -195,7 +195,62 @@ The following funciton is structred similar to the previous algorithim. However,
 	
 	]
 
+#### Making a Funciton that works for all curves
+![a non symetirc function][4]
 
+
+	ClearAll[circleSmoothietheRest]
+
+	circleSmoothietheRest[function_,variable_,numCir_]:=
+	Block[
+	{proto=FourierSeries[function,variable,numCir]//ComplexExpand,protoList2,cosList,sinList,cosCoeff,sinCoeff,
+	basicCosCoord,basicSinCoord,totalRadius,manipulatedCosCoord,manipulatedSinCoord,manipulatedCoord,
+	lastYCoord,plotCoord,cirCenter,cirArguments,lastLinetoYaxis,combinedCir,lineSeries,range,fourierCoeff},
+
+	protoList2=Drop[Apply[List,proto],1];
+	cosList=Take[protoList2,numCir];
+	sinList=(Apply[Plus,Partition[Drop[protoList2,numCir],2],{1}]);
+	cosCoeff=ReplaceAll[#1,Cos[x_]->1]&/@cosList;
+	sinCoeff=(ReplaceAll[#1,Sin[x_]->1]&/@sinList);
+	totalRadius=Echo@(Abs@(Total[Abs@cosCoeff]+Total[Abs@sinCoeff]));
+	fourierCoeff=Abs@Join[cosCoeff,sinCoeff];
+		manipulatedCosCoord=Join[
+			Take[
+				Transpose[
+			{(cosList-10)/.Cos->Sin,cosList}],1],
+		Drop[Transpose[{cosList/.Cos->Sin,cosList}],1]];
+	manipulatedSinCoord=Join[
+		Take[
+			Transpose[
+			{(sinList-10)/.Sin->Cos,sinList}],1],
+		Drop[Transpose[{sinList/.Sin->Cos,sinList}],1]];
+	manipulatedCoord=(Join[manipulatedCosCoord,manipulatedSinCoord]/.x->$time);
+	
+	manipulatedCoord=(Plus@@@Table[
+								manipulatedCoord[[;;n]],
+								{n,1,Length[manipulatedCoord]}]//Prepend[{-10,0}]);
+								
+	lastYCoord={0,Take[Take[manipulatedCoord,-1]//Flatten,-1]};
+	plotCoord=(Total[cosList]+Total[sinList])/.variable->(variable+$time);
+	cirCenter=Drop[manipulatedCoord,-1];
+	(*I need to find a way to extract the radii of the Circles*)
+	cirArguments=Transpose[{cirCenter,fourierCoeff}];
+	
+	lastLinetoYaxis=Prepend[Take[Take[manipulatedCoord,-1]//Flatten,-1],0];
+	
+	combinedCir={Circle[#1,#2]}&@@@(#1&/@cirArguments);
+	lineSeries= (Line[#1]&@Evaluate[Append[manipulatedCoord,lastLinetoYaxis]]);
+	
+	range=(2Pi)*totalRadius;
+
+	Animate[
+			Show[
+				Graphics[{Sequence@@#1,#2},Axes->True],
+				Plot[#3,{variable,0,30},PlotRange->Full]
+								],
+		{$time,0,-2Pi},AnimationRunning->False]&@@Evaluate[{combinedCir,lineSeries,plotCoord}]
+
+]
 #### Putting it All Together
 This code was written to seprate the odd and even functions and use the corresponding function to them; for even funcitons I used the cosine functions and for the odd functions I used sine functions. I also added a plot of the original function to show how the aproximation compares. 
 	
