@@ -198,6 +198,7 @@ The following funciton is structred similar to the previous algorithim. However,
 #### Making a Funciton that works for all curves
 ![a non symetirc function][4]
 
+Unlike the other functions, this function uses the FourierSeries function and then extracts data from the equation itself (There are more detailed comment on what each step does in the code ). I turn the equation into a list and then separate the sine and cosine terms into different lists. Then a little bit more modification is needed to extract the coefficients which was done by replacing all the terms in a specific pattern to 1 so that it would multiply out and only leave me with the coefficients. Then I have functions similar to the previous ones which create a list of circle and line Graphics Primitives
 
 	ClearAll[circleSmoothietheRest]
 
