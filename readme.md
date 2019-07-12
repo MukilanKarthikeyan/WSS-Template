@@ -113,6 +113,7 @@ So this function was labled FourierInputV2 because this was my second itteration
 #### Creating a New Visual
 For my final approach, I used a pair of funcitons called "FourierCosCoefficient" and "FourierSinCoefficient" in order seprately get the radii of the circles. Then the many varibles are used to artificially stich togeather the coeffiecients and the frequencies; the code is using a descriete Fourier Transform, thus allowing me to artificially generate the frequiences used. Then the artificailly generated fourier series is used to generate coordinates. In the begining I had the x coordinates to be in terms of Cosine and y coordinates in terms of Sine which caused the roataing parts to move in the counter clockwise direction. This function then creates individual moving plots which are then combined with the circles through the "Show" function to give the illusion that the circles are creating the plots. This function is named "unblendedCosCircleSmoothie" because this function returns the sperate waves that were added to create the approximation, hence the "ingriedients" in the "smoothie." I created this funciton as a demonstariton to show how seprate waves and circles can create function when combined toagather; the different steps of the process would be a good visual aid in understaing the concept of what the Fourier Series does. Below there is an example of the funciton that is used for the even functions. For the odd funcitons I replaced a few operations and swiched wherever it Cos to Sine and vise-versa. 
 
+![all frequencies][2]
 	ClearAll[unblendedCosCircleSmoothie]
 
 	unblendedCosCircleSmoothie[function_,variable_Symbol,numCir_Integer]:=
@@ -142,7 +143,7 @@ For my final approach, I used a pair of funcitons called "FourierCosCoefficient"
 
 #### Creating the Nested Visual
 The following funciton is structred similar to the previous algorithim. However, the difference is that now the centers of the circles are not static and are changed so that they create a chain. There is an algorithim that takes the set of coordinates and nests them together so that the circles follow an orbit. Another difference in this function is that instead of creaing differnt rotating arms form the origin in order to color them, I was able to insert the entire nested funciton list into the line wich created a line that appeared to be segmented. 
-
+![chained circles][3]
 	ClearAll[circleCosSmoothie2]
 	circleCosSmoothie2[function_,variable_Symbol,numCir_Integer]:=
 		Block[{
