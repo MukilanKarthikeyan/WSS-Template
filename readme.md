@@ -222,3 +222,4 @@ In the future, when I have more time, I hope to get the function to create a vis
 [1]:
 [2]: https://github.com/MukilanKarthikeyan/WSSProject-Visualizing-the-Fourier-Series/blob/master/Final%20Project/Final%20Submission/Fourier_parabola_unblend.gif?raw=true
 [3]: https://github.com/MukilanKarthikeyan/WSSProject-Visualizing-the-Fourier-Series/blob/master/Final%20Project/Final%20Submission/Fourier_parabola_unblend.gif?raw=true
+[4]:https://github.com/MukilanKarthikeyan/WSSProject-Visualizing-the-Fourier-Series/blob/master/Final%20Project/Final%20Submission/Fourier_randomfunction_combined.gif
