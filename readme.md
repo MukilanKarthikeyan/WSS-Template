@@ -190,7 +190,25 @@ The following funciton is structred similar to the previous algorithim. However,
 
 #### Putting it All Together
 
-
+	
+	ClearAll[fourierCircleCookBook]
+	fourierCircleCookBook[function_,variable_Symbol,numCir_Integer]:=
+	Which[
+		PossibleZeroQ[function-(function/.variable->(-variable))],
+			Row[
+				{unblendedCosCircleSmoothie[function,variable,numCir],
+				circleCosSmoothie2[function,variable,numCir],
+				Plot[function,{variable,-30,30},PlotStyle->Black,Frame->True,ImageSize->Medium,Axes->False]}
+			],
+		PossibleZeroQ[function+(function/.variable->(-variable))],
+			Row[
+				{unblendedSinCircleSmoothie[function,variable,numCir],
+				circleSinSmoothie2[function,variable,numCir],
+				Plot[function,{variable,-30,30},PlotStyle->Black,Frame->True,ImageSize->Medium,Axes->False]}
+			],
+	True,
+	circleSmoothietheRest[function,variable,numCir]
+	]
 ## Further Improvements
 In the future, when I have more time, I hope to get the function to create a visualization for any function even if it is neither odd nor even. By doing so I will be able to draw any curve that is provided using rotating arm segments. The end goal is to create a function, such that if given any picture of a curve, it will recreate the cruve using a series of circle linkages. Finally, I will cloud deploy the funcitons so that there will be a mini site that is easy for users to acess and utilize. 
 
