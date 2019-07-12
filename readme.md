@@ -189,7 +189,7 @@ The following funciton is structred similar to the previous algorithim. However,
 
 
 #### Putting it All Together
-
+This code was written to seprate the odd and even functions and use the corresponding function to them; for even funcitons I used the cosine functions and for the odd functions I used sine functions. I also added a plot of the original function to show how the aproximation compares. 
 	
 	ClearAll[fourierCircleCookBook]
 	fourierCircleCookBook[function_,variable_Symbol,numCir_Integer]:=
@@ -213,4 +213,3 @@ The following funciton is structred similar to the previous algorithim. However,
 In the future, when I have more time, I hope to get the function to create a visualization for any function even if it is neither odd nor even. By doing so I will be able to draw any curve that is provided using rotating arm segments. The end goal is to create a function, such that if given any picture of a curve, it will recreate the cruve using a series of circle linkages. Finally, I will cloud deploy the funcitons so that there will be a mini site that is easy for users to acess and utilize. 
 
 
-[1]: 
