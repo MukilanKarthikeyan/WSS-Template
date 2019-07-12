@@ -20,7 +20,7 @@ First,I had to learn Calculus and trignometry in order to understand how the Fou
   			 }
  		 ],
  	{time, 0, 2*Pi}, AnimationRunning -> False]
-![What the code Creates][1]
+
 
 The lines are the roating arms and connect one center of a circle to the next circle's center. The code above shows the nesting of coordinates to create the moving parts using the "Animate" function. If the x-coordinates use "Cosine" and the y-coordinates use "Sine" functions, then the roatating parts will move counter-clockwise.If you switch the functions, then the arms rotate clockwise. (This information proves to be useful later on in the developing process)
 
@@ -30,6 +30,8 @@ I went through many itterations of my code an restarted on a new approach three 
 #### Approach One 
 
 At first I tried to create multiple helper functions to manipulate the information and create it modular. The code below takes in a radius list, frequency list, and the number of circles needes, and then creates the nested list that is used for the moving objects in the graphics. The function is then called multiple times (I at that time had not optimimized by code to run quickly) and used them to create list of Graphics Primitieves. This one of the more developed versions of this method where the urser physically inputs the amplitude and radii of the waves used to generate the desirded funtion. In earilier versions I had an issue with getting animate to work; when I was not using slots in order to input lists and other information. I later found out that the function "Animate" had a "HoldAll" attribute which meant that it would not evaluate anything that is inputed directly in the Animate. Therefore, I had to adapt my code to evaluate outside the Animate and then be inserted into the Animate function via Slot Machines. 
+![original approach][1]
+
 
 	ClearAll[fourierSeriesGraphicsV3]
 	fourierSeriesCoordinates[numberCircles_,radiusList_List,frequencyList_List]:=
@@ -113,6 +115,9 @@ So this function was labled FourierInputV2 because this was my second itteration
 #### Creating a New Visual
 For my final approach, I used a pair of funcitons called "FourierCosCoefficient" and "FourierSinCoefficient" in order seprately get the radii of the circles. Then the many varibles are used to artificially stich togeather the coeffiecients and the frequencies; the code is using a descriete Fourier Transform, thus allowing me to artificially generate the frequiences used. Then the artificailly generated fourier series is used to generate coordinates. In the begining I had the x coordinates to be in terms of Cosine and y coordinates in terms of Sine which caused the roataing parts to move in the counter clockwise direction. This function then creates individual moving plots which are then combined with the circles through the "Show" function to give the illusion that the circles are creating the plots. This function is named "unblendedCosCircleSmoothie" because this function returns the sperate waves that were added to create the approximation, hence the "ingriedients" in the "smoothie." I created this funciton as a demonstariton to show how seprate waves and circles can create function when combined toagather; the different steps of the process would be a good visual aid in understaing the concept of what the Fourier Series does. Below there is an example of the funciton that is used for the even functions. For the odd funcitons I replaced a few operations and swiched wherever it Cos to Sine and vise-versa. 
 
+![unblend circle][2]
+
+
 	ClearAll[unblendedCosCircleSmoothie]
 
 	unblendedCosCircleSmoothie[function_,variable_Symbol,numCir_Integer]:=
@@ -143,6 +148,9 @@ For my final approach, I used a pair of funcitons called "FourierCosCoefficient"
 #### Creating the Nested Visual
 The following funciton is structred similar to the previous algorithim. However, the difference is that now the centers of the circles are not static and are changed so that they create a chain. There is an algorithim that takes the set of coordinates and nests them together so that the circles follow an orbit. Another difference in this function is that instead of creaing differnt rotating arms form the origin in order to color them, I was able to insert the entire nested funciton list into the line wich created a line that appeared to be segmented. 
 
+![circle chain][3]
+	
+	
 	ClearAll[circleCosSmoothie2]
 	circleCosSmoothie2[function_,variable_Symbol,numCir_Integer]:=
 		Block[{
@@ -211,5 +219,6 @@ This code was written to seprate the odd and even functions and use the correspo
 	]
 ## Further Improvements
 In the future, when I have more time, I hope to get the function to create a visualization for any function even if it is neither odd nor even. By doing so I will be able to draw any curve that is provided using rotating arm segments. The end goal is to create a function, such that if given any picture of a curve, it will recreate the cruve using a series of circle linkages. Finally, I will cloud deploy the funcitons so that there will be a mini site that is easy for users to acess and utilize. 
-
-
+[1]:
+[2]: https://github.com/MukilanKarthikeyan/WSSProject-Visualizing-the-Fourier-Series/blob/master/Final%20Project/Final%20Submission/Fourier_parabola_unblend.gif?raw=true
+[3]: https://github.com/MukilanKarthikeyan/WSSProject-Visualizing-the-Fourier-Series/blob/master/Final%20Project/Final%20Submission/Fourier_parabola_unblend.gif?raw=true
