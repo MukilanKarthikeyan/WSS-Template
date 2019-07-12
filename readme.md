@@ -110,7 +110,7 @@ So this function was labled FourierInputV2 because this was my second itteration
 
 
 ### Final Approach And Why it worked
-
+#### Creating a New Visual
 For my final approach, I used a pair of funcitons called "FourierCosCoefficient" and "FourierSinCoefficient" in order seprately get the radii of the circles. Then the many varibles are used to artificially stich togeather the coeffiecients and the frequencies; the code is using a descriete Fourier Transform, thus allowing me to artificially generate the frequiences used. Then the artificailly generated fourier series is used to generate coordinates. In the begining I had the x coordinates to be in terms of Cosine and y coordinates in terms of Sine which caused the roataing parts to move in the counter clockwise direction. This function then creates individual moving plots which are then combined with the circles through the "Show" function to give the illusion that the circles are creating the plots. This function is named "unblendedCosCircleSmoothie" because this function returns the sperate waves that were added to create the approximation, hence the "ingriedients" in the "smoothie." I created this funciton as a demonstariton to show how seprate waves and circles can create function when combined toagather; the different steps of the process would be a good visual aid in understaing the concept of what the Fourier Series does. Below there is an example of the funciton that is used for the even functions. For the odd funcitons I replaced a few operations and swiched wherever it Cos to Sine and vise-versa. 
 
 	ClearAll[unblendedCosCircleSmoothie]
@@ -139,6 +139,57 @@ For my final approach, I used a pair of funcitons called "FourierCosCoefficient"
 				Plot[#3,{variable,0,10},PlotStyle->#4,PlotRange->All],PlotRange->All
 				],
 		{$time,0,-2Pi},AnimationRunning->False]&@@Evaluate[{circleList,styledLines,prePlot,color}]
+
+#### Creating the Nested Visual
+The following funciton is structred similar to the previous algorithim. However, the difference is that now the centers of the circles are not static and are changed so that they create a chain. There is an algorithim that takes the set of coordinates and nests them together so that the circles follow an orbit. Another difference in this function is that instead of creaing differnt rotating arms form the origin in order to color them, I was able to insert the entire nested funciton list into the line wich created a line that appeared to be segmented. 
+
+	ClearAll[circleCosSmoothie2]
+	circleCosSmoothie2[function_,variable_Symbol,numCir_Integer]:=
+		Block[{
+			fourierConstant=FourierCosCoefficient[function,variable,0]//ComplexExpand,
+			fourierCoeff=Table[FourierCosCoefficient[function,variable,p],{p,1,numCir}],
+			basicCoord,manipulatedCoord,lastYCoord,totalRadius,combinedCir,cirCenter,
+			cirArguments,finalPlot,lineSeries,centerOfFirstCir,listOfCoord,lastLinetoYaxis,
+			lastXCoord,plotCoord,plotAllign
+	
+	
+	},
+	
+	totalRadius=Total[Abs@fourierCoeff];
+	basicCoord=MapThread[Times,{fourierCoeff,Cos[Range[numCir]*$time]}];
+	manipulatedCoord=Join[
+		Take[
+			Transpose[
+			{(basicCoord-totalRadius-5)/.Cos->Sin,basicCoord}],1],
+		Drop[Transpose[{basicCoord/.Cos->Sin,basicCoord}],1]];
+	manipulatedCoord=(Plus@@@Table[
+				manipulatedCoord[[;;n]],
+					{n,1,Length[manipulatedCoord]}]//Prepend[{-totalRadius-5,0}]);
+								
+	lastYCoord={0,Take[Take[manipulatedCoord,-1]//Flatten,-1]};
+	plotCoord=Total[MapThread[Times,{fourierCoeff,Cos[((Range[numCir])*(variable+$time))]}]];
+	cirCenter=Drop[manipulatedCoord,-1];
+	cirArguments=Transpose[{cirCenter,Abs@fourierCoeff}];
+	
+	lastLinetoYaxis=Prepend[Take[Take[manipulatedCoord,-1]//Flatten,-1],0];
+	
+	combinedCir={Circle[#1,#2]}&@@@(#1&/@cirArguments);
+	lineSeries= Line[#1]&@(Append[manipulatedCoord,lastLinetoYaxis]);
+
+	Animate[
+			Show[
+				Graphics[{Sequence@@#1,#2},Axes->True],
+				Plot[#3,{variable,0,3*#4},PlotRange->Full],
+				PlotRange->{{-3*#4,3#4},{-#4,#4}}
+								],
+		{$time,0,-2Pi},AnimationRunning->False]&@@Evaluate[{combinedCir,lineSeries,plotCoord,totalRadius}]
+	
+	
+	]
+
+
+#### Putting it All Together
+
 
 ## Further Improvements
 In the future, when I have more time, I hope to get the function to create a visualization for any function even if it is neither odd nor even. By doing so I will be able to draw any curve that is provided using rotating arm segments. The end goal is to create a function, such that if given any picture of a curve, it will recreate the cruve using a series of circle linkages. Finally, I will cloud deploy the funcitons so that there will be a mini site that is easy for users to acess and utilize. 
